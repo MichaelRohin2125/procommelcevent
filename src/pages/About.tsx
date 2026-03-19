@@ -1,7 +1,9 @@
 const About = () => {
     return (
         <div style={{ padding: '4rem 2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h1 className="stranger-title" style={{ marginBottom: '4rem', textAlign: 'center' }}>About Us</h1>
+            <section className="title-neon-frame">
+                <h1 className="stranger-title committee-like-title title-neon-heading">About Us</h1>
+            </section>
 
             <div className="hawkins-container" style={{ maxWidth: '800px', width: '100%' }}>
                 <section style={{ marginBottom: '4rem' }}>

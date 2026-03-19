@@ -74,7 +74,7 @@ const OpeningSequence = () => {
 
             <div className="opening-title-wrap">
                 <p className="opening-super">Hawkins Broadcast Network</p>
-                <h1 className="opening-title">ProComm Hawkin;s Lab</h1>
+                <h1 className="opening-title">ProComm Hawkin's Lab</h1>
                 <p className="opening-sub">Entering the Upside Down</p>
             </div>
 

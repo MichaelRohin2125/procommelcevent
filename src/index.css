@@ -65,6 +65,48 @@ h1, h2, h3, h4, h5, h6 {
   animation: flicker 4s infinite alternate;
 }
 
+.committee-like-title {
+    margin: 0;
+    font-size: clamp(2.45rem, 9vw, 5.5rem);
+    line-height: 0.95;
+}
+
+.title-neon-frame {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto 4rem;
+    text-align: center;
+    border: 1px solid rgba(231, 29, 54, 0.5);
+    padding: 1.5rem 1rem 1.15rem;
+    background: linear-gradient(180deg, rgba(26, 6, 10, 0.72), rgba(8, 8, 8, 0.82));
+    box-shadow:
+        0 0 26px rgba(231, 29, 54, 0.2),
+        inset 0 0 18px rgba(231, 29, 54, 0.16);
+    position: relative;
+    overflow: hidden;
+    animation: titleFramePulse 5.4s ease-in-out infinite;
+}
+
+.title-neon-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.04),
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    opacity: 0.18;
+    pointer-events: none;
+}
+
+.title-neon-heading {
+    margin: 0;
+    text-align: center;
+}
+
 .stranger-section-title {
     font-family: var(--font-heading);
     font-size: 2rem;
@@ -162,5 +204,25 @@ h1, h2, h3, h4, h5, h6 {
     20%, 24%, 55% {
         text-shadow: none;
         opacity: 0.5;
+    }
+}
+
+@keyframes titleFramePulse {
+    0%,
+    100% {
+        box-shadow:
+            0 0 26px rgba(231, 29, 54, 0.2),
+            inset 0 0 18px rgba(231, 29, 54, 0.16);
+    }
+    50% {
+        box-shadow:
+            0 0 36px rgba(231, 29, 54, 0.34),
+            inset 0 0 24px rgba(231, 29, 54, 0.21);
+    }
+}
+
+@media (max-width: 640px) {
+    .title-neon-frame {
+        padding: 1.15rem 0.8rem 0.9rem;
     }
 }

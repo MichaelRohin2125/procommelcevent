@@ -1,5 +1,3 @@
-import Navbar from '../components/Layout/Navbar';
-
 type CommitteeMember = {
     id: string;
     name: string;

@@ -15,9 +15,11 @@ const Events = () => {
             flexDirection: 'column', 
             alignItems: 'center' 
         }}>
-            <h1 className="stranger-title" style={{ marginBottom: '4rem', textAlign: 'center' }}>
-                Events
-            </h1>
+            <section className="title-neon-frame">
+                <h1 className="stranger-title committee-like-title title-neon-heading">
+                    Events
+                </h1>
+            </section>
 
             <div
                 style={{
