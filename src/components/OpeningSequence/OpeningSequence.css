@@ -1,0 +1,287 @@
+.opening-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2200;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    background:
+        radial-gradient(circle at 50% 42%, rgba(231, 29, 54, 0.28), transparent 46%),
+        radial-gradient(circle at 20% 20%, rgba(231, 29, 54, 0.2), transparent 38%),
+        #010101;
+    overflow: hidden;
+    animation: openingFadeIn 0.32s ease both;
+}
+
+.opening-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.08) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.opening-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(231, 29, 54, 0.35);
+    box-shadow:
+        inset 0 0 80px rgba(231, 29, 54, 0.22),
+        0 0 45px rgba(231, 29, 54, 0.35);
+    pointer-events: none;
+}
+
+.opening-noise {
+    position: absolute;
+    inset: -120%;
+    background:
+        repeating-radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.05) 0,
+            rgba(255, 255, 255, 0.05) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+    opacity: 0.12;
+    animation: noiseDrift 12s linear infinite;
+    pointer-events: none;
+}
+
+.opening-glow-ring {
+    position: absolute;
+    width: min(84vw, 850px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid rgba(231, 29, 54, 0.38);
+    box-shadow:
+        0 0 35px rgba(231, 29, 54, 0.55),
+        inset 0 0 30px rgba(231, 29, 54, 0.35);
+    animation: pulseRing 2.6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.opening-title-wrap {
+    position: relative;
+    text-align: center;
+    padding: 1.2rem 1rem;
+    z-index: 1;
+    animation: openingRise 0.8s cubic-bezier(0.15, 0.75, 0.2, 1) both;
+}
+
+.opening-super {
+    margin-bottom: 0.55rem;
+    font-family: var(--font-digital);
+    letter-spacing: 2.8px;
+    text-transform: uppercase;
+    color: var(--color-neon-blue);
+    font-size: clamp(0.62rem, 2.4vw, 0.8rem);
+    text-shadow: 0 0 14px rgba(0, 243, 255, 0.6);
+    animation: signalFlicker 2.4s infinite;
+}
+
+.opening-title {
+    margin: 0;
+    font-family: var(--font-stranger);
+    font-size: clamp(2.4rem, 9.7vw, 6.5rem);
+    line-height: 0.92;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--color-primary);
+    text-shadow:
+        0 0 16px rgba(231, 29, 54, 0.75),
+        0 0 40px rgba(231, 29, 54, 0.6);
+    animation: titleGlow 3s ease-in-out infinite;
+}
+
+.opening-sub {
+    margin-top: 0.55rem;
+    font-family: var(--font-body);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(238, 238, 238, 0.84);
+    font-size: clamp(0.74rem, 2.8vw, 0.95rem);
+}
+
+.opening-signal-bar {
+    position: relative;
+    width: min(440px, 82vw);
+    height: 7px;
+    border: 1px solid rgba(231, 29, 54, 0.4);
+    background: rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    z-index: 1;
+}
+
+.opening-signal-bar span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, rgba(231, 29, 54, 0.7), rgba(255, 93, 113, 1));
+    box-shadow:
+        0 0 10px rgba(231, 29, 54, 0.7),
+        0 0 20px rgba(231, 29, 54, 0.4);
+    animation: loadingBar 3.4s ease forwards;
+}
+
+.opening-skip {
+    position: absolute;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    border: 1px solid rgba(231, 29, 54, 0.65);
+    background: rgba(8, 8, 8, 0.72);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.36rem 0.72rem;
+    font-family: var(--font-digital);
+    font-size: 0.7rem;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    z-index: 1;
+}
+
+.opening-skip:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 121, 141, 0.95);
+    box-shadow: 0 0 14px rgba(231, 29, 54, 0.4);
+}
+
+.opening-overlay.is-leaving {
+    animation: openingFadeOut 0.42s ease forwards;
+    pointer-events: none;
+}
+
+.opening-overlay.is-leaving .opening-title-wrap,
+.opening-overlay.is-leaving .opening-signal-bar,
+.opening-overlay.is-leaving .opening-skip {
+    opacity: 0;
+    transform: translateY(-12px);
+    transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+@keyframes openingFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes openingFadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes openingRise {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+        filter: blur(8px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes pulseRing {
+    0%,
+    100% {
+        transform: scale(0.97);
+        opacity: 0.85;
+    }
+    50% {
+        transform: scale(1.04);
+        opacity: 1;
+    }
+}
+
+@keyframes titleGlow {
+    0%,
+    100% {
+        text-shadow:
+            0 0 14px rgba(231, 29, 54, 0.75),
+            0 0 34px rgba(231, 29, 54, 0.56);
+    }
+    50% {
+        text-shadow:
+            0 0 20px rgba(255, 118, 137, 0.9),
+            0 0 52px rgba(231, 29, 54, 0.78);
+    }
+}
+
+@keyframes signalFlicker {
+    0%,
+    19%,
+    21%,
+    53%,
+    55%,
+    100% {
+        opacity: 1;
+    }
+    20%,
+    54% {
+        opacity: 0.45;
+    }
+}
+
+@keyframes loadingBar {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes noiseDrift {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(18%, -16%, 0);
+    }
+}
+
+@media (max-width: 640px) {
+    .opening-title-wrap {
+        padding: 1rem 0.8rem;
+    }
+
+    .opening-title {
+        letter-spacing: 1px;
+    }
+
+    .opening-sub {
+        letter-spacing: 1.3px;
+    }
+
+    .opening-signal-bar {
+        height: 6px;
+    }
+
+    .opening-skip {
+        right: 0.9rem;
+        bottom: 0.9rem;
+        padding: 0.3rem 0.62rem;
+        font-size: 0.64rem;
+    }
+}

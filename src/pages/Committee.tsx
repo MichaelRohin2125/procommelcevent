@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Layout/Navbar';
 
 type CommitteeMember = {
     id: string;
@@ -118,73 +118,30 @@ const getFallbackAvatar = (name: string) => {
 };
 
 const Committee = () => {
-    const navigate = useNavigate();
-
     return (
-        <div style={{ padding: '4rem 1.2rem', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ width: '100%', maxWidth: '1200px', marginBottom: '2.2rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem', flexWrap: 'wrap' }}>
-                    <button
-                        type="button"
-                        onClick={() => navigate(-1)}
-                        style={{
-                            width: '3rem',
-                            height: '3rem',
-                            borderRadius: '50%',
-                            border: '2px solid rgba(238, 199, 125, 0.95)',
-                            color: '#fff',
-                            background: 'rgba(0, 0, 0, 0.45)',
-                            fontSize: '1.5rem',
-                            cursor: 'pointer',
-                            boxShadow: '0 0 14px rgba(238, 199, 125, 0.35)',
-                            transition: 'all 0.25s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateX(-2px)';
-                            e.currentTarget.style.boxShadow = '0 0 18px rgba(238, 199, 125, 0.55)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'translateX(0)';
-                            e.currentTarget.style.boxShadow = '0 0 14px rgba(238, 199, 125, 0.35)';
-                        }}
-                    >
-                        ←
-                    </button>
+        <div className="committee-page">
+            {/* <Navbar /> */}
 
-                    <div>
-                        <h1 style={{
-                            fontFamily: 'var(--font-heading)',
-                            fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-                            color: '#f0cb87',
-                            letterSpacing: '1px',
-                            textShadow: '0 0 18px rgba(238, 199, 125, 0.25)'
-                        }}>
-                            The Legends
-                        </h1>
-                        <p style={{
-                            marginTop: '0.2rem',
-                            color: '#e8dbbd',
-                            fontFamily: 'var(--font-digital)',
-                            fontSize: '0.85rem',
-                            letterSpacing: '1px',
-                            opacity: 0.85
-                        }}>
-                            IEEE PROCOMM - COMMITTEE PROFILES
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <section className="committee-hero">
+                <p className="committee-eyebrow">Hawkins Public Archive // Transmission Locked: 1986</p>
+                <h1 className="stranger-title committee-main-title">Committee Files</h1>
+                <p className="committee-subtext">
+                    Classified profiles recovered from the upside down signal.
+                </p>
+            </section>
 
-            <div style={{ width: '100%', maxWidth: '1200px', display: 'grid', gap: '1.6rem' }}>
-                {committeeSections.map((section) => (
-                    <section key={section.id} className="committee-section-card">
-                        <h2 className="committee-section-title">{section.title}</h2>
+            <div className="committee-sections">
+                {committeeSections.map((section, sectionIndex) => (
+                    <section key={section.id} className="hawkins-container committee-section-card">
+                        <header className="committee-section-header">
+                            <span className="committee-section-index">{String(sectionIndex + 1).padStart(2, '0')}</span>
+                            <h2 className="stranger-section-title committee-section-title">{section.title}</h2>
+                        </header>
 
                         <div className="committee-members-grid">
                             {section.members.map((member) => (
                                 <article key={member.id} className="committee-member-card">
-                                    <div className="star-badge-wrap">
-                                        <div className="star-badge" />
+                                    <div className="member-photo-frame">
                                         <div className="member-photo-wrap">
                                             <img
                                                 src={member.photo}
@@ -199,6 +156,7 @@ const Committee = () => {
                                         </div>
                                     </div>
 
+                                    <span className="member-role-chip">Record Active</span>
                                     <h3 className="member-name">{member.name}</h3>
                                     <p className="member-role">{member.role}</p>
                                     <p className="member-subtitle">{member.subtitle}</p>
@@ -210,128 +168,358 @@ const Committee = () => {
             </div>
 
             <style>{`
+                .committee-page {
+                    padding: 3.5rem 1.2rem 5rem;
+                    min-height: 100vh;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    position: relative;
+                    isolation: isolate;
+                    overflow: hidden;
+                }
+
+                .committee-page::before {
+                    content: '';
+                    position: absolute;
+                    inset: -12% -8% auto;
+                    height: 95%;
+                    background:
+                        radial-gradient(circle at 12% 10%, rgba(231, 29, 54, 0.24), transparent 42%),
+                        radial-gradient(circle at 84% 12%, rgba(0, 243, 255, 0.09), transparent 34%),
+                        linear-gradient(180deg, rgba(8, 8, 8, 0.1), rgba(3, 3, 3, 0.78));
+                    z-index: -1;
+                    pointer-events: none;
+                }
+
+                .committee-page::after {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    background: repeating-linear-gradient(
+                        0deg,
+                        rgba(255, 255, 255, 0.04),
+                        rgba(255, 255, 255, 0.04) 1px,
+                        transparent 1px,
+                        transparent 3px
+                    );
+                    opacity: 0.12;
+                    z-index: -1;
+                    pointer-events: none;
+                }
+
+                .committee-hero {
+                    width: 100%;
+                    max-width: 1100px;
+                    margin: 0 auto 2.7rem;
+                    text-align: center;
+                    border: 1px solid rgba(231, 29, 54, 0.5);
+                    padding: 1.5rem 1rem 1.15rem;
+                    background: linear-gradient(180deg, rgba(26, 6, 10, 0.72), rgba(8, 8, 8, 0.82));
+                    box-shadow:
+                        0 0 26px rgba(231, 29, 54, 0.2),
+                        inset 0 0 18px rgba(231, 29, 54, 0.16);
+                    animation: heroPulse 5.4s ease-in-out infinite;
+                }
+
+                .committee-eyebrow {
+                    margin-bottom: 0.65rem;
+                    color: var(--color-neon-blue);
+                    font-family: var(--font-digital);
+                    font-size: 0.74rem;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    text-shadow: 0 0 8px rgba(0, 243, 255, 0.45);
+                }
+
+                .committee-main-title {
+                    margin: 0;
+                    font-size: clamp(2.45rem, 9vw, 5.5rem);
+                    line-height: 0.95;
+                }
+
+                .committee-subtext {
+                    margin-top: 0.85rem;
+                    color: rgba(225, 225, 225, 0.85);
+                    font-family: var(--font-body);
+                    letter-spacing: 0.4px;
+                    font-size: 0.98rem;
+                }
+
+                .committee-sections {
+                    width: 100%;
+                    max-width: 1200px;
+                    display: grid;
+                    gap: 1.65rem;
+                }
+
                 .committee-section-card {
-                    background: linear-gradient(180deg, rgba(18, 18, 18, 0.84), rgba(10, 10, 10, 0.84));
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 20px;
-                    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), inset 0 0 24px rgba(255, 199, 128, 0.07);
-                    padding: 1.8rem;
-                    backdrop-filter: blur(5px);
+                    border: 1px solid rgba(231, 29,  54, 0.28);
+                    background: linear-gradient(180deg, rgba(19, 19, 19, 0.84), rgba(8, 8, 8, 0.88));
+                    box-shadow:
+                        0 18px 35px rgba(0, 0, 0, 0.42),
+                        inset 0 0 18px rgba(231, 29, 54, 0.08);
+                    padding: 1.45rem;
+                }
+
+                .committee-section-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.9rem;
+                    margin-bottom: 1.2rem;
+                    border-bottom: 1px solid rgba(231, 29, 54, 0.32);
+                    padding-bottom: 0.85rem;
+                }
+
+                .committee-section-index {
+                    width: 2.4rem;
+                    height: 2.4rem;
+                    border: 1px solid rgba(231, 29, 54, 0.7);
+                    display: grid;
+                    place-items: center;
+                    color: var(--color-primary);
+                    font-family: var(--font-digital);
+                    font-size: 0.82rem;
+                    box-shadow: 0 0 10px rgba(231, 29, 54, 0.28);
                 }
 
                 .committee-section-title {
-                    text-align: center;
-                    color: #f5e8c8;
-                    font-family: var(--font-heading);
-                    font-size: clamp(1.7rem, 3vw, 2.5rem);
-                    letter-spacing: 1px;
-                    margin-bottom: 1.4rem;
-                    text-shadow: 0 0 12px rgba(238, 199, 125, 0.28);
+                    margin: 0;
+                    border-bottom: none;
+                    padding-bottom: 0;
+                    box-shadow: none;
+                    font-size: clamp(1.3rem, 3vw, 2rem);
                 }
 
                 .committee-members-grid {
                     display: grid;
                     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: 1.4rem;
+                    gap: 1rem;
                 }
 
                 .committee-member-card {
+                    position: relative;
                     text-align: center;
-                    padding: 0.8rem 0.6rem 0.6rem;
-                    border-radius: 14px;
-                    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-                    border: 1px solid rgba(255, 255, 255, 0.08);
-                    transition: transform 0.28s ease, box-shadow 0.28s ease;
+                    padding: 1.05rem 0.82rem 0.9rem;
+                    background: linear-gradient(180deg, rgba(22, 22, 22, 0.95), rgba(9, 9, 9, 0.95));
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-left: 3px solid rgba(231, 29, 54, 0.64);
+                    border-radius: 8px;
+                    overflow: hidden;
+                    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+                    opacity: 0;
+                    animation: dossierEnter 0.65s ease forwards;
+                }
+
+                .committee-member-card:nth-child(2) {
+                    animation-delay: 0.08s;
+                }
+
+                .committee-member-card:nth-child(3) {
+                    animation-delay: 0.16s;
+                }
+
+                .committee-member-card:nth-child(4) {
+                    animation-delay: 0.24s;
+                }
+
+                .committee-member-card:nth-child(5) {
+                    animation-delay: 0.32s;
+                }
+
+                .committee-member-card:nth-child(6) {
+                    animation-delay: 0.4s;
+                }
+
+                .committee-member-card::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -110%;
+                    width: 65%;
+                    height: 100%;
+                    transform: skewX(-22deg);
+                    background: linear-gradient(
+                        90deg,
+                        transparent,
+                        rgba(255, 255, 255, 0.22),
+                        transparent
+                    );
+                    transition: left 0.45s ease;
+                    pointer-events: none;
+                    opacity: 0.5;
                 }
 
                 .committee-member-card:hover {
                     transform: translateY(-6px);
-                    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+                    border-color: rgba(231, 29, 54, 0.7);
+                    box-shadow:
+                        0 12px 30px rgba(0, 0, 0, 0.5),
+                        0 0 18px rgba(231, 29, 54, 0.24);
                 }
 
-                .star-badge-wrap {
-                    position: relative;
-                    width: 145px;
-                    height: 145px;
-                    margin: 0 auto 1rem;
-                    filter: drop-shadow(0 0 10px rgba(238, 199, 125, 0.26));
+                .committee-member-card:hover::before {
+                    left: 145%;
                 }
 
-                .star-badge {
-                    position: absolute;
-                    inset: 0;
-                    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-                    background: linear-gradient(145deg, #f5dc9c 0%, #d3a857 48%, #8a6628 100%);
-                }
-
-                .star-badge::after {
-                    content: '';
-                    position: absolute;
-                    inset: 10px;
-                    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-                    background: linear-gradient(145deg, rgba(45, 32, 12, 0.9), rgba(87, 65, 29, 0.9));
+                .member-photo-frame {
+                    width: 102px;
+                    height: 102px;
+                    margin: 0 auto 0.82rem;
+                    border-radius: 50%;
+                    padding: 3px;
+                    background: linear-gradient(145deg, #6b0f1f 0%, var(--color-primary) 52%, #f7c2ca 100%);
+                    box-shadow: 0 0 16px rgba(231, 29, 54, 0.45);
                 }
 
                 .member-photo-wrap {
-                    position: absolute;
-                    inset: 30px;
+                    width: 100%;
+                    height: 100%;
                     border-radius: 50%;
                     overflow: hidden;
-                    border: 3px solid rgba(252, 236, 194, 0.8);
-                    z-index: 2;
-                    background: #161616;
+                    border: 2px solid rgba(0, 0, 0, 0.62);
+                    background: #121212;
                 }
 
                 .member-photo-wrap img {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                    filter: grayscale(0.1) contrast(1.08);
+                }
+
+                .member-role-chip {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0.18rem 0.52rem;
+                    margin-bottom: 0.45rem;
+                    background: rgba(0, 243, 255, 0.84);
+                    color: #051018;
+                    text-transform: uppercase;
+                    font-family: var(--font-digital);
+                    letter-spacing: 0.8px;
+                    font-size: 0.62rem;
+                    font-weight: 700;
                 }
 
                 .member-name {
                     font-family: var(--font-heading);
-                    font-size: 1.25rem;
-                    color: #f3e9d1;
-                    letter-spacing: 0.2px;
-                    margin-bottom: 0.25rem;
+                    font-size: 1.18rem;
+                    color: #f0f0f0;
+                    letter-spacing: 0.4px;
+                    margin-bottom: 0.2rem;
+                    text-transform: none;
                 }
 
                 .member-role {
                     font-family: var(--font-digital);
-                    color: #f2ca85;
-                    font-size: 0.82rem;
-                    letter-spacing: 0.8px;
+                    color: rgba(231, 29, 54, 0.95);
+                    text-shadow: 0 0 12px rgba(231, 29, 54, 0.35);
+                    font-size: 0.8rem;
+                    letter-spacing: 1px;
                     text-transform: uppercase;
-                    margin-bottom: 0.22rem;
+                    margin-bottom: 0.28rem;
                 }
 
                 .member-subtitle {
                     font-family: var(--font-body);
                     font-size: 0.86rem;
-                    color: rgba(240, 236, 224, 0.9);
+                    line-height: 1.45;
+                    color: rgba(228, 228, 228, 0.86);
+                }
+
+                @keyframes heroPulse {
+                    0%,
+                    100% {
+                        box-shadow:
+                            0 0 26px rgba(231, 29, 54, 0.2),
+                            inset 0 0 18px rgba(231, 29, 54, 0.16);
+                    }
+                    50% {
+                        box-shadow:
+                            0 0 36px rgba(231, 29, 54, 0.35),
+                            inset 0 0 24px rgba(231, 29, 54, 0.2);
+                    }
+                }
+
+                @keyframes dossierEnter {
+                    0% {
+                        opacity: 0;
+                        transform: translateY(16px) scale(0.98);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }
+                }
+
+                @media (max-width: 860px) {
+                    .committee-page {
+                        padding-top: 2.8rem;
+                    }
+
+                    .committee-hero {
+                        margin-bottom: 2.2rem;
+                    }
+
+                    .committee-section-card {
+                        padding: 1.2rem;
+                    }
                 }
 
                 @media (max-width: 640px) {
-                    .committee-section-card {
-                        padding: 1.3rem 1rem;
+                    .committee-page {
+                        padding: 2.5rem 0.9rem 4rem;
+                    }
+
+                    .committee-eyebrow {
+                        font-size: 0.66rem;
+                        letter-spacing: 1.4px;
+                    }
+
+                    .committee-main-title {
+                        letter-spacing: 0;
+                    }
+
+                    .committee-subtext {
+                        font-size: 0.9rem;
+                    }
+
+                    .committee-section-header {
+                        gap: 0.65rem;
+                    }
+
+                    .committee-section-index {
+                        width: 2.15rem;
+                        height: 2.15rem;
+                        font-size: 0.74rem;
                     }
 
                     .committee-members-grid {
-                        grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
-                        gap: 1rem;
+                        grid-template-columns: repeat(auto-fit, minmax(154px, 1fr));
+                        gap: 0.8rem;
                     }
 
-                    .star-badge-wrap {
-                        width: 120px;
-                        height: 120px;
+                    .committee-member-card {
+                        padding: 0.9rem 0.7rem 0.78rem;
                     }
 
-                    .member-photo-wrap {
-                        inset: 26px;
+                    .member-photo-frame {
+                        width: 86px;
+                        height: 86px;
                     }
 
                     .member-name {
-                        font-size: 1.08rem;
+                        font-size: 1.02rem;
+                    }
+
+                    .member-role {
+                        font-size: 0.72rem;
+                    }
+
+                    .member-subtitle {
+                        font-size: 0.8rem;
                     }
                 }
             `}</style>

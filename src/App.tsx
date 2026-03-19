@@ -8,11 +8,13 @@ import About from './pages/About';
 import Committee from './pages/Committee';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import OpeningSequence from './components/OpeningSequence/OpeningSequence';
 // import Timeline from './pages/Timeline';
 
 function App() {
   return (
     <Router>
+      <OpeningSequence />
       <Routes>
         {/* Admin Routes (outside Layout - no navbar/footer) */}
         <Route path="/admin" element={<AdminLogin />} />
