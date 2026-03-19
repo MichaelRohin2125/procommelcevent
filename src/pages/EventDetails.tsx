@@ -79,6 +79,7 @@ const EventDetails = () => {
                             <p><strong>Team Size:</strong> {event.teamSize}</p>
                             <p><strong>Venue:</strong> {event.venue}</p>
                             <p><strong>Time:</strong> {event.time}</p>
+                            <p><strong>Registration Fee:</strong> ₹{event.eventFee}</p>
                         </div>
                     </div>
 

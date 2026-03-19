@@ -104,7 +104,8 @@ const Events = () => {
                                 fontSize: '0.9rem'
                             }}>
                                 📅 {event.date} <br/> 
-                                📍 {event.location}
+                                📍 {event.location} <br/>
+                                💰 Registration Fee: ₹{event.eventFee}
                             </p>
                             <p className="stranger-text" style={{ marginBottom: '1.5rem', opacity: 0.9 }}>
                                 {event.description}

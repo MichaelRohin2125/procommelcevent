@@ -14,6 +14,7 @@ export interface Event {
     image: string;
     instructions: string;
     eligibility: string;
+    eventFee: number;
     rounds: {
         name: string;
         mode: string;
@@ -43,6 +44,7 @@ export const eventsData: Event[] = [
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1000",
     instructions: "Teams of 3 must bring a laptop with Ethernet cable and follow prompt limits; AI is allowed only in the specified round.",
     eligibility: "Open to all students from any department and year.",
+    eventFee: 100,
     rounds: [
         { 
             name: "Round 1: PromptDecode", 
@@ -83,6 +85,7 @@ export const eventsData: Event[] = [
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1000",
     instructions: "Ideas must be original and innovative. Creative connection with Stranger Things theme is mandatory. Prototype/demo is optional but earns bonus marks. Strictly follow the time limit (7+3 minutes). Maintain professional behavior during presentation and Q&A. Jury decisions are final.",
     eligibility: "Open to all students.",
+    eventFee: 100,
     rounds: [
         { 
             name: "Presentation (PPT + Prototype)", 
@@ -118,6 +121,7 @@ export const eventsData: Event[] = [
     image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=1000",
     instructions: "English must be used for all dialogues and narration. Vulgar, offensive, or inappropriate content is strictly prohibited. Teams must adhere to time limits. All team members must participate actively. Judges’ decisions are final.",
     eligibility: "Open to all students.",
+    eventFee: 50,
     rounds: [
         { 
             name: "Round 1: Dialogue Decode", 
@@ -164,6 +168,7 @@ export const eventsData: Event[] = [
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1000",
     instructions: "Each team must bring at least one laptop. Internet usage is partially allowed only for code execution under supervision. Searching for solutions or copying code is strictly prohibited. Use of AI tools (ChatGPT, Copilot, etc.) is strictly prohibited. All team members must participate actively. Judges’ decisions are final.",
     eligibility: "Open to all students.",
+    eventFee: 100,
     rounds: [
         { 
             name: "Round 1: Problem Solving & Debugging", 
@@ -204,6 +209,7 @@ export const eventsData: Event[] = [
     image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=1000",
     instructions: "Teams of 3 must bring two laptops with Ethernet cables and a TinkerCAD account. Participants should have basic knowledge of Arduino (C programming) and complete tasks within the given time.",
     eligibility: "Open to all students.",
+    eventFee: 100,
     rounds: [
         { 
             name: "Round 1: The First Disturbance", 
@@ -250,6 +256,7 @@ export const eventsData: Event[] = [
     image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1000",
     instructions: "Each team must bring at least one laptop. Internet usage is strictly prohibited. Use of AI tools is strictly prohibited. No communication between teams. All members must participate. Judges’ decisions are final.",
     eligibility: "Open to all students.",
+    eventFee: 100,
     rounds: [
         { 
             name: "Main Gameplay Session", 
@@ -299,6 +306,7 @@ export const eventsData: Event[] = [
     image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1000",
     instructions: "Speech should be in English only. Characters will be disclosed on the spot. Avoid inappropriate or vulgar content. Adhere to time limits. Judges’ decisions are final.",
     eligibility: "Open to all students.",
+    eventFee: 25,
     rounds: [
         { 
             name: "Main Round: Survival Pitch", 
@@ -334,6 +342,7 @@ export const eventsData: Event[] = [
     image: "https://images.unsplash.com/photo-1526378722484-cc5c510f3c92?auto=format&fit=crop&q=80&w=1000",
     instructions: "Each team must bring a pen and notebook. AI tools, mobile phones, and smart devices are strictly prohibited. All teams must be present for every round. Judges’ decisions are final.",
     eligibility: "Open to all students with strong English comprehension, logical reasoning, and analytical skills.",
+    eventFee: 50,
     rounds: [
         { 
             name: "Round 1: Signal Detected", 
@@ -380,6 +389,7 @@ export const eventsData: Event[] = [
     image: "https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&q=80&w=1000",
     instructions: "Memes must be original and digitally created. Plagiarism is strictly prohibited. Only technical topics are allowed. Vulgar or offensive content is not permitted. Jury decisions are final. Participants should bring their own laptop.",
     eligibility: "Open to all students.",
+    eventFee: 50,
     rounds: [
         { 
             name: "Round 1: Meme Creation & Explanation", 
