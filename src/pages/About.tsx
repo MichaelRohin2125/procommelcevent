@@ -2,7 +2,9 @@ const About = () => {
     return (
         <div style={{ padding: '4rem 2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <section className="title-neon-frame">
+                <p className="title-neon-eyebrow">Hawkins Public Archive // Profile Transmission: Active</p>
                 <h1 className="stranger-title committee-like-title title-neon-heading">About Us</h1>
+                <p className="title-neon-subtext">Classified details recovered from the upside down signal.</p>
             </section>
 
             <div className="hawkins-container" style={{ maxWidth: '800px', width: '100%' }}>

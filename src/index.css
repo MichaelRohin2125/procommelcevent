@@ -105,6 +105,31 @@ h1, h2, h3, h4, h5, h6 {
 .title-neon-heading {
     margin: 0;
     text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.title-neon-eyebrow {
+    margin-bottom: 0.65rem;
+    color: var(--color-neon-blue);
+    font-family: var(--font-digital);
+    font-size: clamp(0.66rem, 1.5vw, 0.78rem);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.45);
+    position: relative;
+    z-index: 1;
+}
+
+.title-neon-subtext {
+    margin-top: 0.85rem;
+    color: rgba(225, 225, 225, 0.85);
+    font-family: var(--font-body);
+    letter-spacing: 0.4px;
+    font-size: clamp(0.82rem, 1.7vw, 0.98rem);
+    text-transform: none;
+    position: relative;
+    z-index: 1;
 }
 
 .stranger-section-title {
@@ -224,5 +249,13 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 640px) {
     .title-neon-frame {
         padding: 1.15rem 0.8rem 0.9rem;
+    }
+
+    .title-neon-eyebrow {
+        letter-spacing: 1.4px;
+    }
+
+    .title-neon-subtext {
+        font-size: 0.9rem;
     }
 }

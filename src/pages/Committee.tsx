@@ -3,6 +3,7 @@ type CommitteeMember = {
     name: string;
     role: string;
     subtitle: string;
+    photoKey: string;
     photo: string;
 };
 
@@ -22,6 +23,7 @@ const committeeSections: CommitteeSection[] = [
                 name: 'Dr Nithya M',
                 role: 'Head of Department',
                 subtitle: 'Department Mentor',
+                photoKey: 'f1',
                 photo: 'https://i.pravatar.cc/320?img=32'
             },
             {
@@ -29,6 +31,7 @@ const committeeSections: CommitteeSection[] = [
                 name: 'Ms Shiny A',
                 role: 'Staff Coordinator',
                 subtitle: 'Operations Lead',
+                photoKey: 'f2',
                 photo: 'https://i.pravatar.cc/320?img=47'
             },
             {
@@ -36,6 +39,7 @@ const committeeSections: CommitteeSection[] = [
                 name: 'Mr Yuvaraj G',
                 role: 'Staff Coordinator',
                 subtitle: 'Technical Mentor',
+                photoKey: 'f3',
                 photo: 'https://i.pravatar.cc/320?img=12'
             }
         ]
@@ -46,23 +50,26 @@ const committeeSections: CommitteeSection[] = [
         members: [
             {
                 id: 's1',
-                name: 'Akash R',
+                name: 'Sanjay S',
                 role: 'President',
                 subtitle: 'IEEE ProComm',
+                photoKey: 's1',
                 photo: 'https://i.pravatar.cc/320?img=15'
             },
             {
                 id: 's2',
-                name: 'Nivetha K',
+                name: 'Meenakshi B',
                 role: 'Vice President',
-                subtitle: 'Event Strategy',
+                subtitle: 'IEEE ProComm',
+                photoKey: 's2',
                 photo: 'https://i.pravatar.cc/320?img=48'
             },
             {
                 id: 's3',
-                name: 'Pradeep S',
+                name: 'Dharani G',
                 role: 'Secretary',
-                subtitle: 'Communication',
+                subtitle: 'IEEE ProComm',
+                photoKey: 's3',
                 photo: 'https://i.pravatar.cc/320?img=55'
             },
             {
@@ -70,45 +77,71 @@ const committeeSections: CommitteeSection[] = [
                 name: 'Harini T',
                 role: 'Treasurer',
                 subtitle: 'Logistics and Budget',
+                photoKey: 's4',
                 photo: 'https://i.pravatar.cc/320?img=25'
             }
         ]
     },
-    {
-        id: 'web',
-        title: 'Website Team',
-        members: [
-            {
-                id: 'w1',
-                name: 'Ragul H',
-                role: 'Frontend Developer',
-                subtitle: 'UI and Animations',
-                photo: 'https://i.pravatar.cc/320?img=68'
-            },
-            {
-                id: 'w2',
-                name: 'Kavin P',
-                role: 'Backend Developer',
-                subtitle: 'API and Data',
-                photo: 'https://i.pravatar.cc/320?img=6'
-            },
-            {
-                id: 'w3',
-                name: 'Shreya M',
-                role: 'UI Designer',
-                subtitle: 'Visual Direction',
-                photo: 'https://i.pravatar.cc/320?img=49'
-            },
-            {
-                id: 'w4',
-                name: 'Vignesh A',
-                role: 'QA and Support',
-                subtitle: 'Testing and Reviews',
-                photo: 'https://i.pravatar.cc/320?img=11'
-            }
-        ]
-    }
+    // {
+    //     id: 'web',
+    //     title: 'Website Team',
+    //     members: [
+    //         {
+    //             id: 'w1',
+    //             name: 'Ragul H',
+    //             role: 'Frontend Developer',
+    //             subtitle: 'UI and Animations',
+    //             photo: 'https://i.pravatar.cc/320?img=68'
+    //         },
+    //         {
+    //             id: 'w2',
+    //             name: 'Kavin P',
+    //             role: 'Backend Developer',
+    //             subtitle: 'API and Data',
+    //             photo: 'https://i.pravatar.cc/320?img=6'
+    //         },
+    //         {
+    //             id: 'w3',
+    //             name: 'Shreya M',
+    //             role: 'UI Designer',
+    //             subtitle: 'Visual Direction',
+    //             photo: 'https://i.pravatar.cc/320?img=49'
+    //         },
+    //         {
+    //             id: 'w4',
+    //             name: 'Vignesh A',
+    //             role: 'QA and Support',
+    //             subtitle: 'Testing and Reviews',
+    //             photo: 'https://i.pravatar.cc/320?img=11'
+    //         }
+    //     ]
+    // }
 ];
+
+    const committeePhotoModules = import.meta.glob(
+        '../assets/committee/*.{png,jpg,jpeg,webp,avif,gif,PNG,JPG,JPEG,WEBP,AVIF,GIF}',
+        { eager: true, import: 'default' }
+    ) as Record<string, string>;
+
+    const getAssetKey = (assetPath: string) => {
+        const fileName = assetPath.split('/').pop() ?? '';
+        const extensionIndex = fileName.lastIndexOf('.');
+
+        if (extensionIndex === -1) {
+            return fileName.toLowerCase();
+        }
+
+        return fileName.slice(0, extensionIndex).toLowerCase();
+    };
+
+    const committeePhotoByKey = Object.entries(committeePhotoModules).reduce<Record<string, string>>((acc, [path, url]) => {
+        acc[getAssetKey(path)] = url;
+        return acc;
+    }, {});
+
+    const resolveCommitteePhoto = (photoKey: string, fallbackPhoto: string) => {
+        return committeePhotoByKey[photoKey.toLowerCase()] ?? fallbackPhoto;
+    };
 
 const getFallbackAvatar = (name: string) => {
     const encodedName = encodeURIComponent(name);
@@ -142,7 +175,7 @@ const Committee = () => {
                                     <div className="member-photo-frame">
                                         <div className="member-photo-wrap">
                                             <img
-                                                src={member.photo}
+                                                src={resolveCommitteePhoto(member.photoKey, member.photo)}
                                                 alt={member.name}
                                                 loading="lazy"
                                                 onError={(e) => {
@@ -154,7 +187,7 @@ const Committee = () => {
                                         </div>
                                     </div>
 
-                                    <span className="member-role-chip">Record Active</span>
+                                    {/* <span className="member-role-chip">Record Active</span> */}
                                     <h3 className="member-name">{member.name}</h3>
                                     <p className="member-role">{member.role}</p>
                                     <p className="member-subtitle">{member.subtitle}</p>

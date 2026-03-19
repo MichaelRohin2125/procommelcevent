@@ -144,15 +144,18 @@ const Home = () => {
                 width: '100%'
             }}>
                 <section style={{ width: '100%', maxWidth: '1000px', marginTop: '4rem', paddingBottom: '4rem', position: 'relative' }}>
-                    <h2 className="stranger-title" style={{ 
-                        fontSize: 'clamp(2rem, 5vw, 3.5rem)', 
-                        marginBottom: '4rem', 
-                        textAlign: 'center',
-                        width: '100%',
-                        filter: 'drop-shadow(0 0 15px var(--color-primary))' 
-                    }}>
-                        UPSIDE DOWN SIGNALS
-                    </h2>
+                    <div className="title-neon-frame">
+                        <p className="title-neon-eyebrow">Hawkins Public Archive // Transmission Locked: 1986</p>
+                        <h2 className="stranger-title title-neon-heading" style={{ 
+                            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+                            marginBottom: '0.3rem',
+                            width: '100%',
+                            filter: 'drop-shadow(0 0 15px var(--color-primary))' 
+                        }}>
+                            UPSIDE DOWN SIGNALS
+                        </h2>
+                        <p className="title-neon-subtext">Classified signals recovered from the upside down channel.</p>
+                    </div>
                     
                     {/* Vertical Signal Line */}
                     <div style={{

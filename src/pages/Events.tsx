@@ -16,9 +16,11 @@ const Events = () => {
             alignItems: 'center' 
         }}>
             <section className="title-neon-frame">
+                <p className="title-neon-eyebrow">Hawkins Public Archive // Event Transmission: Active</p>
                 <h1 className="stranger-title committee-like-title title-neon-heading">
                     Events
                 </h1>
+                <p className="title-neon-subtext">Classified updates recovered from the upside down signal.</p>
             </section>
 
             <div
