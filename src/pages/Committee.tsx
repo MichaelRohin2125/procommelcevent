@@ -28,7 +28,7 @@ const committeeSections: CommitteeSection[] = [
             },
             {
                 id: 'f2',
-                name: 'Ms Shiny A',
+                name: 'Dr. Geetha A',
                 role: 'Staff Coordinator',
                 subtitle: 'Operations Lead',
                 photoKey: 'f2',
