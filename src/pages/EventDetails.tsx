@@ -91,7 +91,7 @@ const EventDetails = () => {
                             <p><strong>Team Size:</strong> {event.teamSize}</p>
                             <p><strong>Venue:</strong> {event.venue}</p>
                             <p><strong>Time:</strong> {event.time}</p>
-                            <p><strong>Registration Fee:</strong> ₹{event.eventFee}</p>
+                            <p><strong>Registration Fee:</strong> ₹{event.eventFee}{event.id === 8 ? '' : ' /per team'}</p>
                         </div>
                     </div>
 
@@ -186,17 +186,56 @@ const EventDetails = () => {
                             <p key={i} className="stranger-text" style={{ fontSize: '0.9rem' }}>{c}</p>
                         ))}
                     </div>
-                    <div>
-                        <h3 style={{ color: 'var(--color-primary)', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)' }}>Staff Coordinator</h3>
-                        {event.coordinators && event.coordinators.staff.map((c: string, i: number) => (
-                            <p key={i} className="stranger-text" style={{ fontSize: '0.9rem' }}>{c}</p>
-                        ))}
+                    <div className={`event-details-staff ${event.id === 8 ? 'event-details-staff-parallel' : ''}`}>
+                        <h3
+                            className={event.id === 8 ? 'event-details-staff-title-survivox' : ''}
+                            style={{ color: 'var(--color-primary)', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)' }}
+                        >
+                            {event.id === 8 ? 'Staff Coordinators' : 'Staff Coordinator'}
+                        </h3>
+                        <div className="event-details-staff-list">
+                            {event.coordinators && event.coordinators.staff.map((c: string, i: number) => (
+                                <p key={i} className="stranger-text event-details-staff-entry" style={{ fontSize: '0.9rem', whiteSpace: 'pre-line', lineHeight: 1.65 }}>{c}</p>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
                 <style>{`
                     .event-details-page {
                         width: 100%;
+                    }
+
+                    .event-details-staff {
+                        margin-left: auto;
+                        text-align: right;
+                    }
+
+                    .event-details-staff-list {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.45rem;
+                    }
+
+                    .event-details-staff-entry {
+                        margin: 0;
+                    }
+
+                    .event-details-staff-title-survivox {
+                        text-align: center;
+                    }
+
+                    .event-details-staff-parallel .event-details-staff-list {
+                        display: grid;
+                        grid-template-columns: repeat(2, minmax(220px, 1fr));
+                        gap: 0.9rem 1.2rem;
+                        text-align: left;
+                    }
+
+                    .event-details-staff-parallel .event-details-staff-entry {
+                        padding: 0.55rem 0.7rem;
+                        // border: 1px dashed rgba(231, 29, 54, 0.45);
+                        // background: rgba(231, 29, 54, 0.08);
                     }
 
                     .event-details-action {
@@ -224,6 +263,10 @@ const EventDetails = () => {
 
                         .event-details-rounds {
                             gap: 1.3rem !important;
+                        }
+
+                        .event-details-staff-parallel .event-details-staff-list {
+                            grid-template-columns: 1fr;
                         }
                     }
 

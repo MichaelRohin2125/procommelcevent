@@ -4,10 +4,42 @@ import { eventsData } from '../data/eventsData';
 
 const API_URL = 'http://localhost:5000';
 
+type TeamSizeRule = {
+    min: number;
+    max: number;
+    individual?: boolean;
+};
+
+const TEAM_SIZE_RULES: Record<number, TeamSizeRule> = {
+    3: { min: 3, max: 3 },
+    4: { min: 2, max: 2 },
+    5: { min: 3, max: 4 },
+    6: { min: 3, max: 3 },
+    7: { min: 2, max: 3 },
+    8: { min: 1, max: 1, individual: true },
+    9: { min: 2, max: 3 },
+    10: { min: 2, max: 2 },
+    11: { min: 3, max: 4 },
+};
+
+const getTeamSizeRule = (eventId?: number): TeamSizeRule => TEAM_SIZE_RULES[eventId ?? -1] ?? { min: 1, max: 4 };
+
 const Registration = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const event = eventsData.find(e => e.id === Number(id));
+    const teamSizeRule = getTeamSizeRule(event?.id);
+    const teamSizeOptions = Array.from(
+        { length: teamSizeRule.max - teamSizeRule.min + 1 },
+        (_, index) => teamSizeRule.min + index
+    );
+    const teamSizeSummaryText = teamSizeRule.individual
+        ? 'individual registration only.'
+        : teamSizeRule.min === teamSizeRule.max
+            ? `${teamSizeRule.min} members only.`
+            : `${teamSizeRule.min} to ${teamSizeRule.max} members allowed.`;
+    const defaultTeamSize = teamSizeRule.min;
+    const isIndividualEvent = teamSizeRule.individual === true;
 
     // Form State
     const [formData, setFormData] = useState({
@@ -18,10 +50,11 @@ const Registration = () => {
         teamLeadName: '',
         teamLeadEmail: '',
         teamLeadPhone: '',
-        teamSize: 1,
+        teamSize: defaultTeamSize,
         abstract: '',
         transport: 'no',
-        locality: ''
+        locality: '',
+        memberLocalities: [] as string[]
     });
 
     // Dynamic State for Additional Members (Added Phone)
@@ -30,28 +63,32 @@ const Registration = () => {
     const [submitError, setSubmitError] = useState('');
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
-    // Handle Team Size Change (Dropdown Logic)
-    const handleTeamSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const size = parseInt(e.target.value);
-        setFormData({ ...formData, teamSize: size });
-
-        // Calculate how many EXTRA members we need (Total - 1 Team Lead)
+    const resizeMembersForTeamSize = (size: number) => {
         const extraMembersCount = Math.max(0, size - 1);
-        
-        // Resize the members array
+
         setMembers(prev => {
             const newMembers = [...prev];
             if (newMembers.length < extraMembersCount) {
-                // Add new empty slots with phone field
                 while (newMembers.length < extraMembersCount) {
                     newMembers.push({ name: '', email: '', phone: '' });
                 }
             } else {
-                // Trim the array
                 newMembers.length = extraMembersCount;
             }
             return newMembers;
         });
+
+        setFormData(prev => ({
+            ...prev,
+            memberLocalities: Array(extraMembersCount).fill('')
+        }));
+    };
+
+    // Handle Team Size Change (Dropdown Logic)
+    const handleTeamSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const size = parseInt(e.target.value);
+        setFormData({ ...formData, teamSize: size });
+        resizeMembersForTeamSize(size);
     };
 
     // Handle Dynamic Member Inputs
@@ -68,10 +105,14 @@ const Registration = () => {
         setSubmitError('');
 
         try {
+            const normalizedTeamName = isIndividualEvent
+                ? (formData.teamLeadName.trim() || 'Individual Registration')
+                : formData.teamName;
+
             const payload = {
                 eventId: event?.id,
                 eventName: event?.title || '',
-                teamName: formData.teamName,
+                teamName: normalizedTeamName,
                 collegeName: formData.collegeName,
                 department: formData.department,
                 branch: formData.branch,
@@ -83,6 +124,7 @@ const Registration = () => {
                 abstract: event?.id === 11 ? formData.abstract : undefined,
                 transport: formData.transport,
                 locality: formData.transport === 'yes' ? formData.locality : undefined,
+                memberLocalities: formData.transport === 'yes' ? formData.memberLocalities : undefined,
             };
 
             const response = await fetch(`${API_URL}/api/register`, {
@@ -109,6 +151,17 @@ const Registration = () => {
         setShowSuccessPopup(false);
         navigate('/');
     };
+
+    useEffect(() => {
+        const nextTeamSize = getTeamSizeRule(event?.id).min;
+
+        setFormData(prev => {
+            if (prev.teamSize === nextTeamSize) return prev;
+            return { ...prev, teamSize: nextTeamSize };
+        });
+
+        resizeMembersForTeamSize(nextTeamSize);
+    }, [event?.id]);
 
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
@@ -170,22 +223,24 @@ const Registration = () => {
                 <form className="registration-form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     
                     {/* Section 1: Team & College Info */}
-                    <h3 style={sectionHeaderStyle}>Team Identity</h3>
+                    <h3 style={sectionHeaderStyle}>{isIndividualEvent ? 'Individual Identity' : 'Team Identity'}</h3>
                     <div style={gridStyle}>
-                        <InputGroup label="Team Name" value={formData.teamName} onChange={(e: any) => setFormData({...formData, teamName: e.target.value})} />
+                        {!isIndividualEvent && (
+                            <InputGroup label="Team Name" value={formData.teamName} onChange={(e: any) => setFormData({...formData, teamName: e.target.value})} />
+                        )}
                         <InputGroup label="College Name" value={formData.collegeName} onChange={(e: any) => setFormData({...formData, collegeName: e.target.value})} />
                         <InputGroup label="Department" value={formData.department} onChange={(e: any) => setFormData({...formData, department: e.target.value})} />
                         <InputGroup label="Branch / Year" value={formData.branch} onChange={(e: any) => setFormData({...formData, branch: e.target.value})} />
                     </div>
 
                     {/* Section 2: Team Lead */}
-                    <h3 style={sectionHeaderStyle}>Team Lead (Main Contact)</h3>
+                    <h3 style={sectionHeaderStyle}>{isIndividualEvent ? 'Participant Details' : 'Team Lead (Main Contact)'}</h3>
                     <div style={gridStyle}>
-                        <InputGroup label="Lead Name" value={formData.teamLeadName} onChange={(e: any) => setFormData({...formData, teamLeadName: e.target.value})} />
-                        <InputGroup label="Lead Phone" type="tel" value={formData.teamLeadPhone} onChange={(e: any) => setFormData({...formData, teamLeadPhone: e.target.value})} />
+                        <InputGroup label={isIndividualEvent ? 'Participant Name' : 'Lead Name'} value={formData.teamLeadName} onChange={(e: any) => setFormData({...formData, teamLeadName: e.target.value})} />
+                        <InputGroup label={isIndividualEvent ? 'Participant Phone No' : 'Lead Phone No'} type="tel" value={formData.teamLeadPhone} onChange={(e: any) => setFormData({...formData, teamLeadPhone: e.target.value})} />
                         {/* Added Lead Email */}
                         <div style={{ gridColumn: '1 / -1' }}>
-                            <InputGroup label="Lead Email ID" type="email" value={formData.teamLeadEmail} onChange={(e: any) => setFormData({...formData, teamLeadEmail: e.target.value})} />
+                            <InputGroup label={isIndividualEvent ? 'Participant Email ID' : 'Lead Email ID'} type="email" value={formData.teamLeadEmail} onChange={(e: any) => setFormData({...formData, teamLeadEmail: e.target.value})} />
                         </div>
                     </div>
 
@@ -227,131 +282,118 @@ const Registration = () => {
                         </div>
                     )}
 
-                    {/* Section 3: Team Configuration */}
-                    <h3 style={sectionHeaderStyle}>Team Configuration</h3>
-                    
-                    <div className="registration-panel" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderLeft: '3px solid var(--color-primary)' }}>
-                        <label style={labelStyle}>Number of Team Members (Including Lead)</label>
-                        
-                        {/* CHANGED: Dropdown for 1-4 Members */}
-                        <select 
-                            value={formData.teamSize} 
-                            onChange={handleTeamSizeChange}
-                            style={{ ...inputStyle, width: '100%', cursor: 'pointer' }}
-                        >
-                            <option value={1}>1 Member (Lead)</option>
-                            <option value={2}>2 Members</option>
-                            <option value={3}>3 Members</option>
-                            <option value={4}>4 Members</option>
-                        </select>
+                    {!isIndividualEvent && (
+                        <>
+                            {/* Section 3: Team Configuration */}
+                            <h3 style={sectionHeaderStyle}>Team Configuration</h3>
+                            
+                            <div className="registration-panel" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderLeft: '3px solid var(--color-primary)' }}>
+                                <label style={labelStyle}>Number of Team Members (Including Lead)</label>
+                                
+                                {/* Team size options are event-specific */}
+                                <select 
+                                    value={formData.teamSize} 
+                                    onChange={handleTeamSizeChange}
+                                    disabled={teamSizeOptions.length === 1}
+                                    style={{
+                                        ...inputStyle,
+                                        width: '100%',
+                                        cursor: teamSizeOptions.length === 1 ? 'not-allowed' : 'pointer',
+                                        opacity: teamSizeOptions.length === 1 ? 0.8 : 1
+                                    }}
+                                >
+                                    {teamSizeOptions.map((size) => (
+                                        <option key={size} value={size}>
+                                            {teamSizeRule.individual && size === 1
+                                                ? 'Individual Registration'
+                                                : size === 1
+                                                    ? '1 Member (Lead)'
+                                                    : `${size} Members`}
+                                        </option>
+                                    ))}
+                                </select>
 
-                        <p style={{ fontSize: '0.8rem', color: '#888', marginTop: '0.5rem' }}>
-                            *Select total team size. Forms will appear below for additional members.
-                        </p>
-                    </div>
+                                <p style={{ fontSize: '0.8rem', color: '#888', marginTop: '0.5rem' }}>
+                                    *Allowed team size: {teamSizeSummaryText}
+                                </p>
+                            </div>
 
-                    {/* Dynamic Member Fields */}
-                    {members.length > 0 && (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', animation: 'fadeIn 0.5s ease' }}>
-                            {members.map((member, index) => (
-                                <div className="registration-member-card" key={index} style={{ 
-                                    padding: '1rem', 
-                                    border: '1px dashed #444', 
-                                    marginTop: '1rem',
-                                    position: 'relative'
-                                }}>
-                                    <span style={{ 
-                                        position: 'absolute', 
-                                        top: '-10px', 
-                                        left: '10px', 
-                                        background: '#000', 
-                                        padding: '0 5px', 
-                                        color: 'var(--color-neon-blue)', 
-                                        fontSize: '0.8rem',
-                                        fontFamily: 'var(--font-digital)'
-                                    }}>
-                                        MEMBER 0{index + 2} DATA
-                                    </span>
-                                    
-                                    {/* Updated Grid to include Phone */}
-                                    <div style={gridStyle}>
-                                        <InputGroup 
-                                            label={`Member ${index + 2} Name`} 
-                                            value={member.name} 
-                                            onChange={(e: any) => handleMemberChange(index, 'name', e.target.value)} 
-                                        />
-                                        <InputGroup 
-                                            label={`Member ${index + 2} Phone`} 
-                                            type="tel"
-                                            value={member.phone} 
-                                            onChange={(e: any) => handleMemberChange(index, 'phone', e.target.value)} 
-                                        />
-                                        <div style={{ gridColumn: '1 / -1' }}>
-                                            <InputGroup 
-                                                label={`Member ${index + 2} Email`} 
-                                                type="email"
-                                                value={member.email} 
-                                                onChange={(e: any) => handleMemberChange(index, 'email', e.target.value)} 
-                                            />
+                            {/* Dynamic Member Fields */}
+                            {members.length > 0 && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', animation: 'fadeIn 0.5s ease' }}>
+                                    {members.map((member, index) => (
+                                        <div className="registration-member-card" key={index} style={{ 
+                                            padding: '1rem', 
+                                            border: '1px dashed #444', 
+                                            marginTop: '1rem',
+                                            position: 'relative'
+                                        }}>
+                                            <span style={{ 
+                                                position: 'absolute', 
+                                                top: '-10px', 
+                                                left: '10px', 
+                                                background: '#000', 
+                                                padding: '0 5px', 
+                                                color: 'var(--color-neon-blue)', 
+                                                fontSize: '0.8rem',
+                                                fontFamily: 'var(--font-digital)'
+                                            }}>
+                                                MEMBER 0{index + 2} DATA
+                                            </span>
+                                            
+                                            {/* Updated Grid to include Phone */}
+                                            <div style={gridStyle}>
+                                                <InputGroup 
+                                                    label={`Member ${index + 2} Name`} 
+                                                    value={member.name} 
+                                                    onChange={(e: any) => handleMemberChange(index, 'name', e.target.value)} 
+                                                />
+                                                <InputGroup 
+                                                    label={`Member ${index + 2} Phone No`} 
+                                                    type="tel"
+                                                    value={member.phone} 
+                                                    onChange={(e: any) => handleMemberChange(index, 'phone', e.target.value)} 
+                                                />
+                                                <div style={{ gridColumn: '1 / -1' }}>
+                                                    <InputGroup 
+                                                        label={`Member ${index + 2} Email`} 
+                                                        type="email"
+                                                        value={member.email} 
+                                                        onChange={(e: any) => handleMemberChange(index, 'email', e.target.value)} 
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
+                            )}
+                        </>
                     )}
 
                     {/* Section 4: Transport Facility */}
                     <h3 style={sectionHeaderStyle}>Transport Facility</h3>
                     <div className="registration-panel" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderLeft: '3px solid var(--color-primary)' }}>
                         <label style={labelStyle}>Do you want transport facility?</label>
-                        <div className="registration-transport-options" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '1rem' }}>
-                            <label
-                                className="registration-transport-option"
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '0.5rem',
-                                    cursor: 'pointer',
-                                    color: '#fff',
-                                    flex: '1 1 220px',
-                                    minWidth: 0,
-                                    padding: '0.6rem 0.75rem',
-                                    border: '1px solid rgba(231, 29, 54, 0.35)',
-                                    borderRadius: '6px',
-                                    background: 'rgba(0, 0, 0, 0.35)'
-                                }}
-                            >
+                        <div className="registration-transport-options" style={{ marginTop: '1rem' }}>
+                            <label className="registration-transport-option">
                                 <input 
                                     type="radio" 
                                     name="transport" 
                                     value="yes" 
                                     checked={formData.transport === 'yes'}
                                     onChange={(e) => setFormData({...formData, transport: e.target.value})}
+                                    className="registration-transport-radio"
                                     style={{ accentColor: 'var(--color-primary)' }}
                                 /> Yes
                             </label>
-                            <label
-                                className="registration-transport-option"
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '0.5rem',
-                                    cursor: 'pointer',
-                                    color: '#fff',
-                                    flex: '1 1 220px',
-                                    minWidth: 0,
-                                    padding: '0.6rem 0.75rem',
-                                    border: '1px solid rgba(231, 29, 54, 0.35)',
-                                    borderRadius: '6px',
-                                    background: 'rgba(0, 0, 0, 0.35)'
-                                }}
-                            >
+                            <label className="registration-transport-option">
                                 <input 
                                     type="radio" 
                                     name="transport" 
                                     value="no" 
                                     checked={formData.transport === 'no'}
                                     onChange={(e) => setFormData({...formData, transport: e.target.value})}
+                                    className="registration-transport-radio"
                                     style={{ accentColor: 'var(--color-primary)' }}
                                 /> No
                             </label>
@@ -360,10 +402,27 @@ const Registration = () => {
                         {formData.transport === 'yes' && (
                             <div className="registration-locality-wrap" style={{ marginTop: '1.5rem', animation: 'fadeIn 0.4s ease' }}>
                                 <InputGroup 
-                                    label="Locality" 
+                                    label={isIndividualEvent ? 'Participant Locality' : 'Team Lead Locality'} 
                                     value={formData.locality} 
                                     onChange={(e: any) => setFormData({...formData, locality: e.target.value})} 
                                 />
+
+                                {members.length > 0 && (
+                                    <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                        {members.map((_, index) => (
+                                            <InputGroup
+                                                key={index}
+                                                label={`Member ${index + 2} Locality`}
+                                                value={formData.memberLocalities[index] || ''}
+                                                onChange={(e: any) => {
+                                                    const newLocalities = [...formData.memberLocalities];
+                                                    newLocalities[index] = e.target.value;
+                                                    setFormData({...formData, memberLocalities: newLocalities});
+                                                }}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
@@ -432,6 +491,29 @@ const Registration = () => {
                     max-width: 100%;
                 }
 
+                .registration-transport-options {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1.2rem;
+                    align-items: center;
+                }
+
+                .registration-transport-option {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.45rem;
+                    color: #fff;
+                    cursor: pointer;
+                    font-family: var(--font-body);
+                    font-size: 0.96rem;
+                }
+
+                .registration-transport-radio {
+                    width: auto !important;
+                    max-width: none !important;
+                    margin: 0;
+                }
+
                 @media (max-width: 900px) {
                     .registration-page {
                         padding-top: 3rem !important;
@@ -472,12 +554,13 @@ const Registration = () => {
                     }
 
                     .registration-transport-options {
-                        flex-direction: column !important;
+                        flex-direction: row !important;
+                        flex-wrap: wrap !important;
                         gap: 0.7rem !important;
                     }
 
                     .registration-transport-option {
-                        width: 100%;
+                        width: auto;
                     }
 
                     .registration-locality-wrap {

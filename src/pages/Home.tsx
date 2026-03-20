@@ -167,7 +167,7 @@ const Home = () => {
             }}>
                 <section className="home-signals-section" style={{ width: '100%', maxWidth: '1000px', marginTop: '4rem', paddingBottom: '4rem', position: 'relative' }}>
                     <div className="title-neon-frame">
-                        <p className="title-neon-eyebrow">Hawkins Public Archive // Transmission Locked: 1986</p>
+                        <p className="title-neon-eyebrow">A journey of moments, milestones, and memories in the making.</p>
                         <h2 className="stranger-title title-neon-heading" style={{ 
                             fontSize: 'clamp(2rem, 5vw, 3.5rem)',
                             marginBottom: '0.3rem',
@@ -176,7 +176,7 @@ const Home = () => {
                         }}>
                             UPSIDE DOWN SIGNALS
                         </h2>
-                        <p className="title-neon-subtext">Classified signals recovered from the upside down channel.</p>
+                        <p className="title-neon-subtext">From beginnings to breakthroughs, every step tells a story.</p>
                     </div>
                     
                     {/* Vertical Signal Line */}

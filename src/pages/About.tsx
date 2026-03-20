@@ -2,9 +2,9 @@ const About = () => {
     return (
         <div className="about-page" style={{ padding: '4rem clamp(1rem, 4vw, 2rem)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <section className="title-neon-frame">
-                <p className="title-neon-eyebrow">Hawkins Public Archive // Profile Transmission: Active</p>
+                <p className="title-neon-eyebrow">Where ideas turn into impact and innovation meets imagination</p>
                 <h1 className="stranger-title committee-like-title title-neon-heading">About Us</h1>
-                <p className="title-neon-subtext">Classified details recovered from the upside down signal.</p>
+                <p className="title-neon-subtext">A space where creativity, technology, and vision come together to shape the future.</p>
             </section>
 
             <div className="hawkins-container about-container" style={{ maxWidth: '800px', width: '100%' }}>
@@ -22,13 +22,13 @@ const About = () => {
 
                 <section className="about-block">
                     <h2 className="stranger-section-title">
-                        ENGLISH LITERACY CLUB
+                        ENGLISH LITERARY CLUB
                     </h2>
                     <p className="stranger-text" style={{ marginBottom: '1.5rem' }}>
-                        The English Literacy Club (ELC) is a student-run organization that aims to enhance the English language skills of its members and the broader student community. The club typically organizes a range of activities, including workshops, seminars, reading groups, and cultural events, all designed to promote proficiency in English.
+                        The English Literary Club (ELC) is a student-run organization that aims to enhance the English language skills of its members and the broader student community. The club typically organizes a range of activities, including workshops, seminars, reading groups, and cultural events, all designed to promote proficiency in English.
                     </p>
                     <p className="stranger-text">
-                        The ELC provides a platform for students to practice their speaking, listening, reading, and writing skills in English through interactive sessions and peer-to-peer learning. By fostering a supportive environment, the English Literacy Club helps students improve their communication skills, which are essential for academic success and future career opportunities in a globalized world.
+                        The ELC provides a platform for students to practice their speaking, listening, reading, and writing skills in English through interactive sessions and peer-to-peer learning. By fostering a supportive environment, the English literary Club helps students improve their communication skills, which are essential for academic success and future career opportunities in a globalized world.
                     </p>
                 </section>
             </div>

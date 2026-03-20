@@ -67,7 +67,7 @@ const committeeSections: CommitteeSection[] = [
             {
                 id: 's3',
                 name: 'Dharani G',
-                role: 'Secretary',
+                role: 'Treasurer',
                 subtitle: 'IEEE ProComm',
                 photoKey: 's3',
                 photo: 'https://i.pravatar.cc/320?img=55'
@@ -75,8 +75,8 @@ const committeeSections: CommitteeSection[] = [
             {
                 id: 's4',
                 name: 'P P Saranya',
-                role: 'Treasurer',
-                subtitle: 'Logistics and Budget',
+                role: 'Web Master',
+                subtitle: 'IEEE ProComm',
                 photoKey: 's4',
                 photo: 'https://i.pravatar.cc/320?img=25'
             }
@@ -154,10 +154,10 @@ const Committee = () => {
             {/* <Navbar /> */}
 
             <section className="committee-hero">
-                <p className="committee-eyebrow">Hawkins Public Archive // Transmission Locked: 1986</p>
+                <p className="committee-eyebrow">Driven by passion, united by purpose.</p>
                 <h1 className="stranger-title committee-main-title">Committee Files</h1>
                 <p className="committee-subtext">
-                    Classified profiles recovered from the upside down signal.
+                    A committee committed to creating impactful and unforgettable experiences.
                 </p>
             </section>
 

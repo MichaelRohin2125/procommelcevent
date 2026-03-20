@@ -34,11 +34,11 @@ const Events = () => {
             alignItems: 'center' 
         }}>
             <section className="title-neon-frame">
-                <p className="title-neon-eyebrow">Hawkins Public Archive // Event Transmission: Active</p>
+                <p className="title-neon-eyebrow">Where every event sparks creativity and fuels innovation.</p>
                 <h1 className="stranger-title committee-like-title title-neon-heading">
                     Events
                 </h1>
-                <p className="title-neon-subtext">Classified updates recovered from the upside down signal.</p>
+                <p className="title-neon-subtext">Experience moments that inspire, challenge, and leave a lasting impact</p>
             </section>
 
             <div
@@ -101,11 +101,30 @@ const Events = () => {
                 </button>
             </div>
 
+            <div
+                className="events-info-note"
+                style={{
+                    marginTop: '0.85rem',
+                    color: 'rgba(225, 225, 225, 0.85)',
+                    fontFamily: 'var(--font-body)',
+                    letterSpacing: '0.4px',
+                    fontSize: 'clamp(0.82rem, 1.7vw, 0.98rem)',
+                    paddingBottom: '1.5rem',
+                    textTransform: 'none',
+                    position: 'relative',
+                    zIndex: 1,
+                    textAlign: 'center',
+                    marginBottom: '2.5rem'
+                }}
+            >
+                ✦ Participants are allowed to register for a maximum of one event only. ✦
+            </div>
+
             <div className="events-grid" style={{ 
                 display: 'grid', 
                 gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', 
                 gap: '2.5rem', 
-                maxWidth: '1200px', 
+                maxWidth: '1200px',     
                 width: '100%' 
             }}>
                 {categoryEvents.map((event, index) => (
@@ -136,9 +155,9 @@ const Events = () => {
                                 letterSpacing: '1px',
                                 fontSize: '0.9rem'
                             }} className="events-meta">
-                                📅 {event.date} <br/> 
-                                📍 {event.location} <br/>
-                                💰 Registration Fee: ₹{event.eventFee}
+                                📅 {event.date} <br/> <br />
+                                📍 {event.location} <br/> <br />
+                                💰 Registration Fee: ₹{event.eventFee}{event.id === 8 ? '' : ' /per team'}
                             </p>
                             <p className="stranger-text" style={{ marginBottom: '1.5rem', opacity: 0.9 }}>
                                 {event.description}
@@ -185,8 +204,23 @@ const Events = () => {
             </div>
 
             <style>{`
+                @keyframes pulse-glow {
+                    0%, 100% {
+                        opacity: 0.8;
+                        textShadow: 0 0 12px rgba(231, 29, 54, 0.6), 0 0 24px rgba(231, 29, 54, 0.25);
+                    }
+                    50% {
+                        opacity: 1;
+                        textShadow: 0 0 18px rgba(231, 29, 54, 0.8), 0 0 36px rgba(231, 29, 54, 0.4);
+                    }
+                }
+
                 .events-page {
                     width: 100%;
+                }
+
+                .events-info-note {
+                    animation: pulse-glow 3s ease-in-out infinite;
                 }
 
                 .events-filter-btn {
@@ -217,6 +251,13 @@ const Events = () => {
                 @media (max-width: 540px) {
                     .events-filter-row {
                         gap: 0.7rem !important;
+                    }
+
+                    .events-info-note {
+                        font-size: 0.8rem !important;
+                        margin-top: 1rem !important;
+                        margin-bottom: 1.8rem !important;
+                        padding: 0 0.8rem;
                     }
 
                     .events-filter-btn {

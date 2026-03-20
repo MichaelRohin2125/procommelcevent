@@ -99,14 +99,14 @@ const Footer = () => {
                 <div className="footer-section">
                     <h4 className="stranger-text" style={{ color: 'var(--color-primary)', border: 'none', fontSize: '1rem' }}>IEEE PROCOMM</h4>
                     <p style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.4)', lineHeight: '1.5' }}>
-                        Empowering technical communication in Hawkins.
+                    Empowering communication excellence through innovation, technology, and collaboration <br /> Connecting Ideas. Inspiring Innovation.
                     </p>
                 </div>
 
                 <div className="footer-section">
-                    <h4 className="stranger-text" style={{ color: 'var(--color-primary)', border: 'none', fontSize: '1rem' }}>English Literacy Club</h4>
+                    <h4 className="stranger-text" style={{ color: 'var(--color-primary)', border: 'none', fontSize: '1rem' }}>English Literary Club</h4>
                     <p style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.4)', lineHeight: '1.5' }}>
-                        Hawkins Chapter
+                        Nurturing creativity, expression, and the power of words. <br /> Literary Brilliance – Infinite Spark!
                     </p>
                 </div>
 
@@ -136,7 +136,7 @@ const Footer = () => {
             </div>
 
             <div className="copyright">
-                © 1984 IEEE PROCOMM ELC • SECURE
+                © IEEE PROCOMM AND ELC 
             </div>
         </footer>
     );

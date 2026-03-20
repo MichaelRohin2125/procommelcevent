@@ -48,8 +48,8 @@ export const eventsData: Event[] = [
     rounds: [
         { 
             name: "Round 1: PromptDecode", 
-            mode: "Online", 
-            date: "TBD", 
+            mode: "Offline", 
+            date: "March 30", 
             desc: "Write clear prompts to accurately recreate the given image." 
         },
         { 
@@ -65,7 +65,7 @@ export const eventsData: Event[] = [
             "Ezhil M - 9600577214"
         ],
         staff: [
-            "Ms. P.R. Maya (Assistant Professor)"
+            "Ms. P.R. Maya\nAssistant Professor\nDepartment of English\nSri Sairam Engineering College"
         ]
     }
 
@@ -83,7 +83,7 @@ export const eventsData: Event[] = [
     time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
     image: "/src/data/poi.png",
-    instructions: "Ideas must be original and innovative. Creative connection with Stranger Things theme is mandatory. Prototype/demo is optional but earns bonus marks. Strictly follow the time limit (7+3 minutes). Maintain professional behavior during presentation and Q&A. Jury decisions are final.",
+    instructions: "Ideas must be original and innovative. Creative connection with Stranger Things theme is mandatory. Prototype/demo is optional but earns bonus marks. Strictly follow the time limit (5+2 minutes). Maintain professional behavior during presentation and Q&A. Jury decisions are final.",
     eligibility: "Open to all students.",
     eventFee: 100,
     rounds: [
@@ -100,7 +100,7 @@ export const eventsData: Event[] = [
             "Saranya P P - 8122930692"
         ],
         staff: [
-            "Srija (Assistant Professor)"
+            "Srija\nAssistant Professor\nDepartment of English\nSri Sairam Engineering College"
         ]
     }
 
@@ -148,7 +148,7 @@ export const eventsData: Event[] = [
             "Jefrin M - 8524024061"
         ],
         staff: [
-            "Dr. S. Kogila (Assistant Professor)"
+            "Dr. S. Kogila\nAssistant Professor\nDepartment of English\nSri Sairam Engineering College"
         ]
     }
 
@@ -162,8 +162,8 @@ export const eventsData: Event[] = [
     location: "Sri Sairam Engineering College",
     description: "A gamified technical event combining coding, debugging, logic, and UI/UX challenges in a Monopoly-style board game.",
     fullDescription: "Neo Hawkins is an offline, gamified technical event designed to test participants’ problem-solving, coding, debugging, logical reasoning, and UI/UX design skills through an interactive Monopoly-style board game. Participants roll dice on a physical board and land on different task blocks such as coding (DSA-based), debugging, logic, and UI/UX design. Each block presents a randomly selected challenge from a prepared task pool, making the competition dynamic and engaging.",
-    teamSize: "4 members",
-    time: "10:00 AM - 4:00 PM",
+    teamSize: "s to 4 members",
+    time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
     image: "/src/data/nh.png",
     instructions: "Each team must bring at least one laptop. Internet usage is partially allowed only for code execution under supervision. Searching for solutions or copying code is strictly prohibited. Use of AI tools (ChatGPT, Copilot, etc.) is strictly prohibited. All team members must participate actively. Judges’ decisions are final.",
@@ -189,7 +189,7 @@ export const eventsData: Event[] = [
             "Aruna Priya R S - 9629782641"
         ],
         staff: [
-            "Geetha (Assistant Professor)"
+            "Dr. Geetha A\nAssistant Professor\nDepartment of English\nSri Sairam Engineering College"
         ]
     }
 
@@ -204,7 +204,7 @@ export const eventsData: Event[] = [
     description: "A technical challenge focused on circuit failures, problem-solving, and real-world system design.",
     fullDescription: "Upside Down Crisis is a technical challenge where participants explore real-world circuit and system failures. The event tests problem-solving ability, logical thinking, and hands-on skills, pushing teams to analyze problems and build effective solutions under time constraints.",
     teamSize: "3 members",
-    time: "10:30 AM - 3:30 PM",
+    time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
     image: "/src/data/usc.png",
     instructions: "Teams of 3 must bring two laptops with Ethernet cables and a TinkerCAD account. Participants should have basic knowledge of Arduino (C programming) and complete tasks within the given time.",
@@ -236,7 +236,7 @@ export const eventsData: Event[] = [
             "Kanimozhi R - 7708942006"
         ],
         staff: [
-            "Dr. K. Rajesh (Assistant Professor)"
+            "Dr. K. Rajesh\nAssistant Professor\nDepartment of English\nSri Sairam Engineering College"
         ]
     }
 
@@ -251,7 +251,7 @@ export const eventsData: Event[] = [
     description: "A digital, story-driven escape room event focused on puzzles, logic, and teamwork.",
     fullDescription: "Escape the Upside Down is a digital, story-driven escape room event where participants solve hidden puzzles, clues, and mini challenges to progress. The event focuses on logical thinking, observation, and teamwork with a cyber-inspired theme.",
     teamSize: "2 to 3 members",
-    time: "Starts at 11:00 AM (3 hrs duration)",
+    time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
     image: "/src/data/etud.png",
     instructions: "Each team must bring at least one laptop. Internet usage is strictly prohibited. Use of AI tools is strictly prohibited. No communication between teams. All members must participate. Judges’ decisions are final.",
@@ -283,7 +283,7 @@ export const eventsData: Event[] = [
             "Nithish R - +91 6369343445"
         ],
         staff: [
-            "Ms. Mini Stanely (Associate Professor)"
+            "Ms. Mini Stanely\nAssociate Professor\nDepartment of English\nSri Sairam Engineering College"
         ]
     }
 
@@ -321,8 +321,8 @@ export const eventsData: Event[] = [
             "Nayana J S - 8056782510"
         ],
         staff: [
-            "Ms. S. Anuradha (Assistant Professor)",
-            "Dr. R V. Sivaraman (Assistant Professor)"
+            "Ms. S. Anuradha\nAssistant Professor\nDepartment of English\nSri Sairam Engineering College",
+            "Dr. R V. Sivaraman\nAssistant Professor\nDepartment of English\nSri Sairam Engineering College"
         ]
     }
 
@@ -337,7 +337,7 @@ export const eventsData: Event[] = [
     description: "An immersive investigative challenge where teams solve a mysterious case using logic, language, and deduction.",
     fullDescription: "Case 404: Reality Not Found is an immersive, LA Noire–inspired investigative challenge where teams act as detectives solving a mysterious incident using language as their only weapon. There are no physical clues — only witness statements, handwritten notes, transcripts, and hidden linguistic inconsistencies. Facts feel distorted, testimonies don't align, and reality itself becomes unreliable, pushing participants to uncover the truth through sharp reasoning and analysis.",
     teamSize: "2 to 3 members",
-    time: "3 Hours",
+    time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
     image: "/src/data/case404.png",
     instructions: "Each team must bring a pen and notebook. AI tools, mobile phones, and smart devices are strictly prohibited. All teams must be present for every round. Judges’ decisions are final.",
@@ -369,7 +369,7 @@ export const eventsData: Event[] = [
             "Hariprasath JG - 9487223547"
         ],
         staff: [
-            "Ms. M. Monisha (Assistant Professor)"
+            "Ms. M. Monisha\nAssistant Professor\nDepartment of English\nSri Sairam Engineering College"
         ]
     }
 
@@ -410,7 +410,7 @@ export const eventsData: Event[] = [
             "Keertana P - 6382760098"
         ],
         staff: [
-            "Dr. J. Ranjith Kumar (Associate Professor)"
+            "Dr. J. Ranjith Kumar\nAssociate Professor\nDepartment of English\nSri Sairam Engineering College"
         ]
     }
 
