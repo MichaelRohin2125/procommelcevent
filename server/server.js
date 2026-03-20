@@ -3,10 +3,11 @@ import cors from 'cors';
 import mysql from 'mysql2/promise';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { pathToFileURL } from 'url';
 
 dotenv.config();
 
-const app = express();
+export const app = express();
 app.use(cors());
 app.use(express.json());
 
@@ -26,7 +27,7 @@ async function createPool() {
 }
 
 // ─── Initialize Database Tables ─────────────────────────────────────
-async function initDB() {
+export async function initDB() {
   try {
     // Create database if it doesn't exist
     const tempConn = await mysql.createConnection({
@@ -330,20 +331,26 @@ app.delete('/api/admin/registrations/:id', authenticateToken, checkDB, async (re
   }
 });
 
-// ─── Start Server ───────────────────────────────────────────────────
-const PORT = process.env.PORT || 5000;
+// ─── Start Server (Only When Run Directly) ─────────────────────────
+const isDirectExecution = process.argv[1]
+  ? import.meta.url === pathToFileURL(process.argv[1]).href
+  : false;
 
-initDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`\n🔥 Hawkins Lab Server running on http://localhost:${PORT}`);
-    console.log(`   Health check: GET  http://localhost:${PORT}/api/health`);
-    console.log(`   Admin login:  POST /api/admin/login`);
-    console.log(`   Register:     POST /api/register`);
-    console.log(`   View data:    GET  /api/admin/registrations\n`);
-    if (!dbReady) {
-      console.log('⚠️  WARNING: Server started but database is NOT connected!');
-      console.log('   Edit server/.env and set DB_PASSWORD to your MySQL password.\n');
-    }
+if (isDirectExecution) {
+  const PORT = process.env.PORT || 5000;
+
+  initDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`\n🔥 Hawkins Lab Server running on http://localhost:${PORT}`);
+      console.log(`   Health check: GET  http://localhost:${PORT}/api/health`);
+      console.log(`   Admin login:  POST /api/admin/login`);
+      console.log(`   Register:     POST /api/register`);
+      console.log(`   View data:    GET  /api/admin/registrations\n`);
+      if (!dbReady) {
+        console.log('⚠️  WARNING: Server started but database is NOT connected!');
+        console.log('   Edit server/.env and set DB_PASSWORD to your MySQL password.\n');
+      }
+    });
   });
-});
+}
 
