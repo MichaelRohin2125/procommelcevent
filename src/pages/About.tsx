@@ -1,14 +1,14 @@
 const About = () => {
     return (
-        <div style={{ padding: '4rem 2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="about-page" style={{ padding: '4rem clamp(1rem, 4vw, 2rem)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <section className="title-neon-frame">
                 <p className="title-neon-eyebrow">Hawkins Public Archive // Profile Transmission: Active</p>
                 <h1 className="stranger-title committee-like-title title-neon-heading">About Us</h1>
                 <p className="title-neon-subtext">Classified details recovered from the upside down signal.</p>
             </section>
 
-            <div className="hawkins-container" style={{ maxWidth: '800px', width: '100%' }}>
-                <section style={{ marginBottom: '4rem' }}>
+            <div className="hawkins-container about-container" style={{ maxWidth: '800px', width: '100%' }}>
+                <section className="about-block" style={{ marginBottom: '4rem' }}>
                     <h2 className="stranger-section-title">
                         IEEE PROCOMM
                     </h2>
@@ -20,7 +20,7 @@ const About = () => {
                     </p>
                 </section>
 
-                <section>
+                <section className="about-block">
                     <h2 className="stranger-section-title">
                         ENGLISH LITERACY CLUB
                     </h2>
@@ -32,6 +32,43 @@ const About = () => {
                     </p>
                 </section>
             </div>
+
+            <style>{`
+                .about-page {
+                    width: 100%;
+                }
+
+                @media (max-width: 768px) {
+                    .about-page {
+                        padding-top: 3rem !important;
+                        padding-bottom: 3rem !important;
+                    }
+
+                    .about-container {
+                        padding: 1.2rem !important;
+                    }
+
+                    .about-block {
+                        margin-bottom: 2.3rem !important;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .about-container {
+                        padding: 1rem !important;
+                    }
+
+                    .about-page .stranger-section-title {
+                        font-size: 1.25rem !important;
+                        margin-bottom: 0.95rem !important;
+                    }
+
+                    .about-page .stranger-text {
+                        font-size: 0.95rem !important;
+                        line-height: 1.55;
+                    }
+                }
+            `}</style>
         </div>
     );
 };

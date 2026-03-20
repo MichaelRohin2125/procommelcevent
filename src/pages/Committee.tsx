@@ -20,25 +20,25 @@ const committeeSections: CommitteeSection[] = [
         members: [
             {
                 id: 'f1',
-                name: 'Dr Nithya M',
-                role: 'Head of Department',
-                subtitle: 'Department Mentor',
+                name: 'Dr. Geetha A',
+                role: 'Advisor',
+                subtitle: 'IEEE SB ProComm',
                 photoKey: 'f1',
                 photo: 'https://i.pravatar.cc/320?img=32'
             },
             {
                 id: 'f2',
-                name: 'Dr. Geetha A',
-                role: 'Staff Coordinator',
-                subtitle: 'Operations Lead',
+                name: 'Ms Mini Stanley',
+                role: 'Captain',
+                subtitle: 'English Literary club',
                 photoKey: 'f2',
                 photo: 'https://i.pravatar.cc/320?img=47'
             },
             {
                 id: 'f3',
-                name: 'Mr Yuvaraj G',
-                role: 'Staff Coordinator',
-                subtitle: 'Technical Mentor',
+                name: 'Ms Maya PR',
+                role: 'Propagator',
+                subtitle: 'English Literary club',
                 photoKey: 'f3',
                 photo: 'https://i.pravatar.cc/320?img=12'
             }
@@ -51,7 +51,7 @@ const committeeSections: CommitteeSection[] = [
             {
                 id: 's1',
                 name: 'Sanjay S',
-                role: 'President',
+                role: 'Chairman',
                 subtitle: 'IEEE ProComm',
                 photoKey: 's1',
                 photo: 'https://i.pravatar.cc/320?img=15'
@@ -59,7 +59,7 @@ const committeeSections: CommitteeSection[] = [
             {
                 id: 's2',
                 name: 'Meenakshi B',
-                role: 'Vice President',
+                role: 'Vice-chairman',
                 subtitle: 'IEEE ProComm',
                 photoKey: 's2',
                 photo: 'https://i.pravatar.cc/320?img=48'
@@ -74,7 +74,7 @@ const committeeSections: CommitteeSection[] = [
             },
             {
                 id: 's4',
-                name: 'Harini T',
+                name: 'P P Saranya',
                 role: 'Treasurer',
                 subtitle: 'Logistics and Budget',
                 photoKey: 's4',
@@ -499,6 +499,24 @@ const Committee = () => {
                     }
                 }
 
+                @media (max-width: 768px) {
+                    .committee-page {
+                        padding: 2.5rem 1rem 4rem;
+                    }
+
+                    .committee-hero {
+                        padding: 1.2rem 0.9rem 1rem;
+                    }
+
+                    .committee-main-title {
+                        font-size: clamp(1.8rem, 8vw, 3rem);
+                    }
+
+                    .committee-members-grid {
+                        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                    }
+                }
+
                 @media (max-width: 640px) {
                     .committee-page {
                         padding: 2.5rem 0.9rem 4rem;
@@ -511,6 +529,7 @@ const Committee = () => {
 
                     .committee-main-title {
                         letter-spacing: 0;
+                        font-size: clamp(1.5rem, 7vw, 2.5rem);
                     }
 
                     .committee-subtext {
@@ -528,7 +547,7 @@ const Committee = () => {
                     }
 
                     .committee-members-grid {
-                        grid-template-columns: repeat(auto-fit, minmax(154px, 1fr));
+                        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
                         gap: 0.8rem;
                     }
 
@@ -537,20 +556,112 @@ const Committee = () => {
                     }
 
                     .member-photo-frame {
-                        width: 86px;
-                        height: 86px;
+                        width: 80px;
+                        height: 80px;
                     }
 
                     .member-name {
-                        font-size: 1.02rem;
+                        font-size: 0.95rem;
                     }
 
                     .member-role {
-                        font-size: 0.72rem;
+                        font-size: 0.68rem;
                     }
 
                     .member-subtitle {
-                        font-size: 0.8rem;
+                        font-size: 0.75rem;
+                        line-height: 1.35;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .committee-page {
+                        padding: 2rem 0.7rem 3rem;
+                    }
+
+                    .committee-hero {
+                        padding: 1rem 0.8rem 0.8rem;
+                        margin-bottom: 1.8rem;
+                        border: 1px solid rgba(231, 29, 54, 0.3);
+                    }
+
+                    .committee-eyebrow {
+                        font-size: 0.6rem;
+                        letter-spacing: 1px;
+                    }
+
+                    .committee-main-title {
+                        font-size: clamp(1.3rem, 6vw, 2rem);
+                    }
+
+                    .committee-subtext {
+                        font-size: 0.85rem;
+                        margin-top: 0.5rem;
+                    }
+
+                    .committee-section-card {
+                        padding: 1rem;
+                        margin-bottom: 0.5rem;
+                    }
+
+                    .committee-section-header {
+                        gap: 0.5rem;
+                        margin-bottom: 1rem;
+                    }
+
+                    .committee-section-index {
+                        width: 2rem;
+                        height: 2rem;
+                        font-size: 0.7rem;
+                    }
+
+                    .committee-section-title {
+                        font-size: clamp(1.1rem, 4vw, 1.5rem);
+                    }
+
+                    .committee-members-grid {
+                        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                        gap: 0.6rem;
+                    }
+
+                    .committee-member-card {
+                        padding: 0.8rem 0.6rem 0.7rem;
+                    }
+
+                    .member-photo-frame {
+                        width: 70px;
+                        height: 70px;
+                        margin-bottom: 0.6rem;
+                    }
+
+                    .member-name {
+                        font-size: 0.9rem;
+                        margin-bottom: 0.1rem;
+                    }
+
+                    .member-role {
+                        font-size: 0.62rem;
+                        margin-bottom: 0.2rem;
+                    }
+
+                    .member-subtitle {
+                        font-size: 0.7rem;
+                        line-height: 1.3;
+                    }
+                }
+
+                @media (max-width: 360px) {
+                    .committee-members-grid {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .committee-member-card {
+                        padding: 0.9rem 0.7rem;
+                    }
+
+                    .member-photo-frame {
+                        width: 76px;
+                        height: 76px;
                     }
                 }
             `}</style>

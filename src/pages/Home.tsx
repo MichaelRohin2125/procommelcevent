@@ -2,10 +2,26 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import CountdownClock from '../components/CountdownClock/CountdownClock';
+import literixLogo from '../assets/LITERIX copy.png';
+
+type SignalItem = {
+    title: string;
+    content: string;
+    date: string;
+    side: 'left' | 'right';
+};
+
+const homeSignals: SignalItem[] = [
+    { title: 'Signal Received', content: 'Registration Starts', date: '21st March 2026 - 12:00 AM', side: 'left' },
+    { title: 'Portal Closes', content: 'Registration Ends', date: '25th March 2026 - 11:59 PM', side: 'right' },
+    { title: 'Chosen Ones Revealed', content: 'Shortlisted Teams Announcement', date: '26th March 2026 - 6:00 PM', side: 'left' },
+    { title: 'Checkpoint Locked', content: 'Payment Confirmation Slot Booking', date: '27th March 2026 - 8.00 PM', side: 'right' },
+    { title: 'The Event Begins', content: '', date: '30th March - 9:00 AM', side: 'right' }
+];
 
 const Home = () => {
     return (
-        <div style={{
+        <div className="home-page" style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -13,7 +29,7 @@ const Home = () => {
             overflowX: 'hidden'
         }}>
             {/* Main Hero Section - Vertically Centered */}
-            <div style={{
+            <div className="home-hero" style={{
                 minHeight: '85vh', // Centering content within the fold
                 display: 'flex',
                 flexDirection: 'column',
@@ -42,6 +58,7 @@ const Home = () => {
                         rotateX: { repeat: Infinity, duration: 6, ease: "easeInOut" },
                         rotateY: { repeat: Infinity, duration: 8, ease: "easeInOut" }
                     }}
+                    className="home-logo-layer"
                     style={{ 
                         width: '100%', 
                         maxWidth: '520px', 
@@ -52,8 +69,9 @@ const Home = () => {
                     }}
                 >
                     <motion.img 
-                        src="/src/assets/LITERIX copy.png" 
+                        src={literixLogo}
                         alt="LITERIX 1.0 Logo" 
+                        className="home-logo-image"
                         animate={{ 
                             filter: [
                                 'drop-shadow(0 0 10px rgba(251, 29, 54, 0.4))',
@@ -73,6 +91,7 @@ const Home = () => {
                     
                     {/* 3D Shimmer Sweep Effect */}
                     <motion.div 
+                                            className="home-logo-shimmer"
                         animate={{ left: ['-100%', '200%'] }}
                         transition={{ repeat: Infinity, duration: 3, ease: "linear", repeatDelay: 2 }}
                         style={{
@@ -90,6 +109,7 @@ const Home = () => {
 
                 {/* Tagline - Staggered Reveal */}
                 <motion.div 
+                    className="home-tagline-wrap"
                     style={{ 
                         marginBottom: '2rem', // Reduced gap to countdown
                         transform: 'translateZ(20px)',
@@ -102,6 +122,7 @@ const Home = () => {
                             initial={{ opacity: 0, y: 10, filter: 'blur(5px)' }}
                             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                             transition={{ delay: 0.8 + index * 0.03, duration: 0.4 }}
+                            className="home-tagline-char"
                             style={{
                                 fontSize: 'clamp(0.9rem, 2.5vw, 1.2rem)',
                                 fontFamily: 'var(--font-heading)',
@@ -123,6 +144,7 @@ const Home = () => {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 1.5, duration: 0.8 }}
+                    className="home-countdown-wrap"
                     style={{ 
                         marginBottom: '1rem',
                         transform: 'translateZ(0px)',
@@ -136,14 +158,14 @@ const Home = () => {
             </div>
 
             {/* Content Sections */}
-            <div style={{ 
+            <div className="home-content" style={{ 
                 padding: '0 1rem', 
                 display: 'flex', 
                 flexDirection: 'column', 
                 alignItems: 'center',
                 width: '100%'
             }}>
-                <section style={{ width: '100%', maxWidth: '1000px', marginTop: '4rem', paddingBottom: '4rem', position: 'relative' }}>
+                <section className="home-signals-section" style={{ width: '100%', maxWidth: '1000px', marginTop: '4rem', paddingBottom: '4rem', position: 'relative' }}>
                     <div className="title-neon-frame">
                         <p className="title-neon-eyebrow">Hawkins Public Archive // Transmission Locked: 1986</p>
                         <h2 className="stranger-title title-neon-heading" style={{ 
@@ -158,7 +180,7 @@ const Home = () => {
                     </div>
                     
                     {/* Vertical Signal Line */}
-                    <div style={{
+                    <div className="home-signal-line" style={{
                         position: 'absolute',
                         left: '50%',
                         top: '12rem',
@@ -170,15 +192,9 @@ const Home = () => {
                         zIndex: 0
                     }} />
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem', position: 'relative', zIndex: 1 }}>
-                        {[
-                            { title: "Signal Received", content: "Registration Starts", date: "21st March 2026 – 12:00 AM", side: 'left' as const },
-                            { title: "Portal Closes", content: "Registration Ends", date: "25th March 2026 – 11:59 PM", side: 'right' as const },
-                            { title: "Chosen Ones Revealed", content: "Shortlisted Teams Announcement", date: "26th March 2026 – 6:00 PM", side: 'left' as const },
-                            { title: "Checkpoint Locked", content: "Payment Confirmation Slot Booking", date: "27th March 2026 – 8.00 PM", side: 'right' as const },
-                            { title: "The Event Begins", content: "", date: "30th March – 9:00 AM", side: 'right' as const },
-                        ].map((signal, idx) => (
-                            <div key={idx} style={{ 
+                    <div className="home-signals-list" style={{ display: 'flex', flexDirection: 'column', gap: '4rem', position: 'relative', zIndex: 1 }}>
+                        {homeSignals.map((signal, idx) => (
+                            <div key={idx} className={`home-signal-row home-signal-row-${signal.side}`} style={{ 
                                 display: 'flex', 
                                 justifyContent: signal.side === 'left' ? 'flex-start' : 'flex-end', 
                                 width: '100%',
@@ -186,6 +202,7 @@ const Home = () => {
                                 boxSizing: 'border-box'
                             }}>
                                 <motion.div
+                                    className="home-signal-card"
                                     initial={{ opacity: 0, x: signal.side === 'left' ? -50 : 50 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true, margin: "-100px" }}
@@ -205,7 +222,7 @@ const Home = () => {
                                     }}
                                 >
                                     {/* Node Dot on the central line */}
-                                    <div style={{
+                                    <div className="home-signal-node" style={{
                                         position: 'absolute',
                                         width: '12px',
                                         height: '12px',
@@ -233,7 +250,7 @@ const Home = () => {
                                         {signal.content}
                                     </p>
                                     
-                                    <div style={{ 
+                                    <div className="home-signal-date" style={{ 
                                         fontFamily: 'var(--font-digital)', 
                                         color: 'var(--color-neon-blue)', 
                                         fontSize: '1.1rem',
@@ -251,8 +268,8 @@ const Home = () => {
                     </div>
                 </section>
 
-                <div style={{ marginTop: '2rem', marginBottom: '4rem' }}>
-                    <Link to="/events" style={{
+                <div className="home-cta-wrap" style={{ marginTop: '2rem', marginBottom: '4rem' }}>
+                    <Link to="/events" className="home-cta-link" style={{
                         display: 'inline-block',
                         background: 'var(--color-primary)',
                         color: 'black',
@@ -268,7 +285,7 @@ const Home = () => {
                         textDecoration: 'none'
                     }}
                     onMouseOver={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                        (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.1)';
+                        (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.05)';
                         (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 40px var(--color-primary)';
                     }}
                     onMouseOut={(e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -280,6 +297,120 @@ const Home = () => {
                     </Link>
                 </div>
             </div>
+
+            <style>{`
+                .home-page {
+                    width: 100%;
+                }
+
+                @media (max-width: 900px) {
+                    .home-hero {
+                        min-height: auto !important;
+                        margin-top: 0 !important;
+                        padding-top: 2.2rem !important;
+                        padding-bottom: 1.6rem !important;
+                    }
+
+                    .home-signals-section {
+                        margin-top: 3rem !important;
+                    }
+
+                    .home-signals-list {
+                        gap: 2.4rem !important;
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .home-content {
+                        padding: 0 0.85rem !important;
+                    }
+
+                    .home-logo-layer {
+                        max-width: 420px !important;
+                    }
+
+                    .home-tagline-wrap {
+                        margin-bottom: 1.3rem !important;
+                    }
+
+                    .home-signals-section {
+                        margin-top: 2.3rem !important;
+                        padding-bottom: 2.4rem !important;
+                    }
+
+                    .home-signal-line {
+                        display: none !important;
+                    }
+
+                    .home-signals-list {
+                        gap: 1.3rem !important;
+                    }
+
+                    .home-signal-row {
+                        justify-content: flex-start !important;
+                        padding: 0 !important;
+                    }
+
+                    .home-signal-card {
+                        max-width: 100% !important;
+                        width: 100% !important;
+                        padding: 1rem !important;
+                    }
+
+                    .home-signal-node {
+                        left: -7px !important;
+                        right: auto !important;
+                        top: 1rem !important;
+                        transform: none !important;
+                        width: 10px !important;
+                        height: 10px !important;
+                    }
+
+                    .home-cta-wrap {
+                        width: 100%;
+                        margin-top: 1.4rem !important;
+                        margin-bottom: 2.8rem !important;
+                    }
+
+                    .home-cta-link {
+                        width: 100%;
+                        text-align: center;
+                        padding: 0.9rem 1rem !important;
+                        font-size: 1.05rem !important;
+                        letter-spacing: 1.7px !important;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .home-hero {
+                        padding-top: 1.4rem !important;
+                    }
+
+                    .home-logo-layer {
+                        max-width: 320px !important;
+                        margin-bottom: 0.75rem !important;
+                    }
+
+                    .home-tagline-char {
+                        font-size: 0.8rem !important;
+                        letter-spacing: 1.5px !important;
+                    }
+
+                    .home-signal-card h3 {
+                        font-size: 1rem !important;
+                        letter-spacing: 1px !important;
+                    }
+
+                    .home-signal-date {
+                        font-size: 0.94rem !important;
+                    }
+
+                    .home-cta-link {
+                        font-size: 0.9rem !important;
+                        letter-spacing: 1px !important;
+                    }
+                }
+            `}</style>
         </div>
     );
 };

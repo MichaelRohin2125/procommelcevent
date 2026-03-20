@@ -115,8 +115,8 @@ const Registration = () => {
     if (!event) return <div>Event not found</div>;
 
     return (
-        <div style={{ 
-            padding: '4rem 2rem', 
+        <div className="registration-page" style={{ 
+            padding: '4rem clamp(1rem, 4vw, 2rem)', 
             minHeight: '100vh', 
             display: 'flex', 
             justifyContent: 'center', 
@@ -124,13 +124,14 @@ const Registration = () => {
         }}>
             {showSuccessPopup && (
                 <div style={successOverlayStyle} role="dialog" aria-modal="true" aria-labelledby="success-popup-title">
-                    <div style={successPopupStyle}>
+                    <div className="registration-success-popup" style={successPopupStyle}>
                         <h2 id="success-popup-title" style={successTitleStyle}>REGISTRATION IS SUBMITTED</h2>
                         <p style={successTextStyle}>
                             The Event registration is successful our student coordinators will contact you for further details
                         </p>
                         <button
                             type="button"
+                            className="registration-success-button"
                             style={successButtonStyle}
                             onClick={closeSuccessPopup}
                             onMouseEnter={(e) => {
@@ -148,10 +149,10 @@ const Registration = () => {
                 </div>
             )}
 
-            <div className="hawkins-container" style={{ maxWidth: '800px', width: '100%', padding: '3rem' }}>
+            <div className="hawkins-container registration-card" style={{ maxWidth: '800px', width: '100%', padding: '3rem' }}>
                 
                 {/* Header */}
-                <div style={{ borderBottom: '2px solid var(--color-primary)', paddingBottom: '1rem', marginBottom: '2rem' }}>
+                <div className="registration-header" style={{ borderBottom: '2px solid var(--color-primary)', paddingBottom: '1rem', marginBottom: '2rem' }}>
                     <h1 className="stranger-section-title" style={{ fontSize: '1.8rem', border: 'none', margin: 0 }}>
                         Registration Form
                     </h1>
@@ -161,12 +162,12 @@ const Registration = () => {
                 </div>
 
                 {submitError && (
-                    <div style={{ background: 'rgba(255, 68, 68, 0.1)', border: '1px solid rgba(255, 68, 68, 0.3)', padding: '0.8rem 1rem', marginBottom: '1rem', fontFamily: 'var(--font-digital)', fontSize: '0.8rem', color: '#ff6666' }}>
+                    <div className="registration-error" style={{ background: 'rgba(255, 68, 68, 0.1)', border: '1px solid rgba(255, 68, 68, 0.3)', padding: '0.8rem 1rem', marginBottom: '1rem', fontFamily: 'var(--font-digital)', fontSize: '0.8rem', color: '#ff6666' }}>
                         ⚠ {submitError}
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <form className="registration-form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     
                     {/* Section 1: Team & College Info */}
                     <h3 style={sectionHeaderStyle}>Team Identity</h3>
@@ -229,7 +230,7 @@ const Registration = () => {
                     {/* Section 3: Team Configuration */}
                     <h3 style={sectionHeaderStyle}>Team Configuration</h3>
                     
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderLeft: '3px solid var(--color-primary)' }}>
+                    <div className="registration-panel" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderLeft: '3px solid var(--color-primary)' }}>
                         <label style={labelStyle}>Number of Team Members (Including Lead)</label>
                         
                         {/* CHANGED: Dropdown for 1-4 Members */}
@@ -253,7 +254,7 @@ const Registration = () => {
                     {members.length > 0 && (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', animation: 'fadeIn 0.5s ease' }}>
                             {members.map((member, index) => (
-                                <div key={index} style={{ 
+                                <div className="registration-member-card" key={index} style={{ 
                                     padding: '1rem', 
                                     border: '1px dashed #444', 
                                     marginTop: '1rem',
@@ -301,10 +302,25 @@ const Registration = () => {
 
                     {/* Section 4: Transport Facility */}
                     <h3 style={sectionHeaderStyle}>Transport Facility</h3>
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderLeft: '3px solid var(--color-primary)' }}>
+                    <div className="registration-panel" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderLeft: '3px solid var(--color-primary)' }}>
                         <label style={labelStyle}>Do you want transport facility?</label>
-                        <div style={{ display: 'flex', gap: '2rem', marginTop: '1rem' }}>
-                            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', color: '#fff' }}>
+                        <div className="registration-transport-options" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '1rem' }}>
+                            <label
+                                className="registration-transport-option"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    cursor: 'pointer',
+                                    color: '#fff',
+                                    flex: '1 1 220px',
+                                    minWidth: 0,
+                                    padding: '0.6rem 0.75rem',
+                                    border: '1px solid rgba(231, 29, 54, 0.35)',
+                                    borderRadius: '6px',
+                                    background: 'rgba(0, 0, 0, 0.35)'
+                                }}
+                            >
                                 <input 
                                     type="radio" 
                                     name="transport" 
@@ -314,7 +330,22 @@ const Registration = () => {
                                     style={{ accentColor: 'var(--color-primary)' }}
                                 /> Yes
                             </label>
-                            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', color: '#fff' }}>
+                            <label
+                                className="registration-transport-option"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    cursor: 'pointer',
+                                    color: '#fff',
+                                    flex: '1 1 220px',
+                                    minWidth: 0,
+                                    padding: '0.6rem 0.75rem',
+                                    border: '1px solid rgba(231, 29, 54, 0.35)',
+                                    borderRadius: '6px',
+                                    background: 'rgba(0, 0, 0, 0.35)'
+                                }}
+                            >
                                 <input 
                                     type="radio" 
                                     name="transport" 
@@ -327,7 +358,7 @@ const Registration = () => {
                         </div>
 
                         {formData.transport === 'yes' && (
-                            <div style={{ marginTop: '1.5rem', animation: 'fadeIn 0.4s ease' }}>
+                            <div className="registration-locality-wrap" style={{ marginTop: '1.5rem', animation: 'fadeIn 0.4s ease' }}>
                                 <InputGroup 
                                     label="Locality" 
                                     value={formData.locality} 
@@ -338,8 +369,9 @@ const Registration = () => {
                     </div>
 
                     {/* Action Buttons */}
-                    <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
+                    <div className="registration-actions" style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
                         <button 
+                            className="registration-action-btn"
                             type="button" 
                             onClick={() => navigate(-1)} 
                             style={cancelButtonStyle}
@@ -356,6 +388,7 @@ const Registration = () => {
                         </button>
 
                         <button 
+                            className="registration-action-btn"
                             type="submit" 
                             disabled={submitting}
                             style={{ ...submitButtonStyle, opacity: submitting ? 0.7 : 1, cursor: submitting ? 'wait' : 'pointer' }}
@@ -386,6 +419,95 @@ const Registration = () => {
                 @keyframes successPopupIn {
                     from { opacity: 0; transform: translateY(16px) scale(0.96); }
                     to { opacity: 1; transform: translateY(0) scale(1); }
+                }
+
+                .registration-page {
+                    width: 100%;
+                }
+
+                .registration-form input,
+                .registration-form textarea,
+                .registration-form select {
+                    width: 100%;
+                    max-width: 100%;
+                }
+
+                @media (max-width: 900px) {
+                    .registration-page {
+                        padding-top: 3rem !important;
+                        padding-bottom: 3rem !important;
+                        align-items: flex-start !important;
+                    }
+
+                    .registration-card {
+                        padding: 2rem !important;
+                    }
+                }
+
+                @media (max-width: 640px) {
+                    .registration-page {
+                        padding: 2rem 0.8rem !important;
+                    }
+
+                    .registration-card {
+                        padding: 1.2rem !important;
+                    }
+
+                    .registration-header h1 {
+                        font-size: 1.35rem !important;
+                    }
+
+                    .registration-header p {
+                        font-size: 0.78rem;
+                        line-height: 1.4;
+                        word-break: break-word;
+                    }
+
+                    .registration-panel {
+                        padding: 1rem !important;
+                    }
+
+                    .registration-member-card {
+                        padding: 0.85rem !important;
+                    }
+
+                    .registration-transport-options {
+                        flex-direction: column !important;
+                        gap: 0.7rem !important;
+                    }
+
+                    .registration-transport-option {
+                        width: 100%;
+                    }
+
+                    .registration-locality-wrap {
+                        margin-top: 1rem !important;
+                    }
+
+                    .registration-actions {
+                        flex-direction: column;
+                        margin-top: 1.4rem !important;
+                    }
+
+                    .registration-action-btn {
+                        width: 100%;
+                        font-size: 0.95rem !important;
+                        padding: 0.85rem !important;
+                    }
+
+                    .registration-success-popup {
+                        padding: 1.25rem !important;
+                    }
+                }
+
+                @media (max-width: 420px) {
+                    .registration-error {
+                        font-size: 0.72rem !important;
+                    }
+
+                    .registration-success-button {
+                        width: 100%;
+                    }
                 }
             `}</style>
         </div>

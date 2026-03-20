@@ -15,7 +15,7 @@ const Navbar = () => {
     });
 
     return (
-        <nav style={{
+        <nav className="navbar" style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -63,6 +63,52 @@ const Navbar = () => {
                 @keyframes blink {
                     0%, 100% { opacity: 1; }
                     50% { opacity: 0; }
+                }
+
+                @media (max-width: 900px) {
+                    .navbar {
+                        padding: 1rem 0.6rem !important;
+                    }
+
+                    .nav-container {
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        gap: 0.55rem !important;
+                    }
+
+                    .nav-link {
+                        padding: 0.6rem 1rem !important;
+                        font-size: 0.85rem !important;
+                        letter-spacing: 1.4px !important;
+                    }
+
+                    .nav-link.active::before {
+                        left: -2px;
+                    }
+                }
+
+                @media (max-width: 540px) {
+                    .navbar {
+                        max-width: 100% !important;
+                    }
+
+                    .nav-container {
+                        width: calc(100% - 1rem);
+                        display: grid !important;
+                        grid-template-columns: repeat(2, minmax(0, 1fr));
+                        gap: 0.45rem !important;
+                        padding: 0.75rem 0.2rem !important;
+                    }
+
+                    .nav-link {
+                        text-align: center;
+                        padding: 0.55rem 0.5rem !important;
+                        letter-spacing: 1px !important;
+                    }
+
+                    .nav-link.active::before {
+                        display: none;
+                    }
                 }
                 `}
             </style>

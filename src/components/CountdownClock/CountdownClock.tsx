@@ -30,27 +30,27 @@ const CountdownClock = () => {
         display: 'flex',
         flexDirection: 'column' as const,
         alignItems: 'center',
-        margin: '0 1rem'
+        margin: '0 clamp(0.25rem, 2vw, 1rem)'
     };
 
     const numberStyle = {
         fontFamily: 'var(--font-digital)',
-        fontSize: '3rem',
+        fontSize: 'clamp(1.6rem, 6vw, 3rem)',
         color: '#ff0033',
         textShadow: '0 0 10px #ff0033',
         backgroundColor: '#0a0a0a',
-        padding: '1rem',
+        padding: 'clamp(0.5rem, 2.5vw, 1rem)',
         borderRadius: '4px',
         border: '1px solid #333',
-        minWidth: '100px'
+        minWidth: 'clamp(64px, 22vw, 100px)'
     };
 
     const labelStyle = {
         fontFamily: 'var(--font-body)',
-        fontSize: '0.8rem',
+        fontSize: 'clamp(0.66rem, 2.5vw, 0.8rem)',
         marginTop: '0.5rem',
         textTransform: 'uppercase' as const,
-        letterSpacing: '2px',
+        letterSpacing: 'clamp(1px, 1vw, 2px)',
         color: '#888'
     };
 

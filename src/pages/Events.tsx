@@ -1,16 +1,34 @@
 // src/pages/Events.tsx
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { eventsData, type EventCategory } from '../data/eventsData'; 
 const Events = () => {
     const navigate = useNavigate();
-    const [activeCategory, setActiveCategory] = useState<EventCategory>('technical');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [activeCategory, setActiveCategory] = useState<EventCategory>(() => {
+        const categoryParam = searchParams.get('category');
+        return categoryParam === 'non-technical' ? 'non-technical' : 'technical';
+    });
+
+    useEffect(() => {
+        const categoryParam = searchParams.get('category');
+        const normalizedCategory: EventCategory = categoryParam === 'non-technical' ? 'non-technical' : 'technical';
+
+        if (normalizedCategory !== activeCategory) {
+            setActiveCategory(normalizedCategory);
+        }
+    }, [searchParams, activeCategory]);
+
+    const handleCategoryChange = (category: EventCategory) => {
+        setActiveCategory(category);
+        setSearchParams({ category });
+    };
 
     const categoryEvents = eventsData.filter((event) => event.category === activeCategory);
 
     return (
-        <div style={{ 
-            padding: '4rem 2rem', 
+        <div className="events-page" style={{ 
+            padding: '4rem clamp(1rem, 4vw, 2rem)', 
             display: 'flex', 
             flexDirection: 'column', 
             alignItems: 'center' 
@@ -24,6 +42,7 @@ const Events = () => {
             </section>
 
             <div
+                className="events-filter-row"
                 style={{
                     display: 'flex',
                     flexWrap: 'wrap',
@@ -33,10 +52,13 @@ const Events = () => {
                 }}
             >
                 <button
+                    className="events-filter-btn"
                     type="button"
-                    onClick={() => setActiveCategory('technical')}
+                    onClick={() => handleCategoryChange('technical')}
                     style={{
-                        background: activeCategory === 'technical' ? 'var(--color-primary)' : 'transparent',
+                        background: activeCategory === 'technical'
+                            ? 'linear-gradient(180deg, rgba(231, 29, 54, 0.96) 0%, rgba(205, 18, 45, 0.96) 100%)'
+                            : 'linear-gradient(180deg, rgba(12, 12, 12, 0.88) 0%, rgba(4, 4, 4, 0.88) 100%)',
                         border: '1px solid var(--color-primary)',
                         color: activeCategory === 'technical' ? '#050505' : 'var(--color-primary)',
                         padding: '0.7rem 1.4rem',
@@ -45,16 +67,22 @@ const Events = () => {
                         textTransform: 'uppercase',
                         cursor: 'pointer',
                         transition: 'all 0.25s ease',
-                        boxShadow: activeCategory === 'technical' ? '0 0 14px rgba(231, 29, 54, 0.45)' : 'none'
+                        textShadow: activeCategory === 'technical' ? 'none' : '0 0 8px rgba(231, 29, 54, 0.4)',
+                        boxShadow: activeCategory === 'technical'
+                            ? '0 0 14px rgba(231, 29, 54, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.08)'
+                            : '0 10px 28px rgba(0, 0, 0, 0.55), inset 0 0 16px rgba(0, 0, 0, 0.55)'
                     }}
                 >
                     Technical Events
                 </button>
                 <button
+                    className="events-filter-btn"
                     type="button"
-                    onClick={() => setActiveCategory('non-technical')}
+                    onClick={() => handleCategoryChange('non-technical')}
                     style={{
-                        background: activeCategory === 'non-technical' ? 'var(--color-primary)' : 'transparent',
+                        background: activeCategory === 'non-technical'
+                            ? 'linear-gradient(180deg, rgba(231, 29, 54, 0.96) 0%, rgba(205, 18, 45, 0.96) 100%)'
+                            : 'linear-gradient(180deg, rgba(12, 12, 12, 0.88) 0%, rgba(4, 4, 4, 0.88) 100%)',
                         border: '1px solid var(--color-primary)',
                         color: activeCategory === 'non-technical' ? '#050505' : 'var(--color-primary)',
                         padding: '0.7rem 1.4rem',
@@ -63,16 +91,19 @@ const Events = () => {
                         textTransform: 'uppercase',
                         cursor: 'pointer',
                         transition: 'all 0.25s ease',
-                        boxShadow: activeCategory === 'non-technical' ? '0 0 14px rgba(231, 29, 54, 0.45)' : 'none'
+                        textShadow: activeCategory === 'non-technical' ? 'none' : '0 0 8px rgba(231, 29, 54, 0.4)',
+                        boxShadow: activeCategory === 'non-technical'
+                            ? '0 0 14px rgba(231, 29, 54, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.08)'
+                            : '0 10px 28px rgba(0, 0, 0, 0.55), inset 0 0 16px rgba(0, 0, 0, 0.55)'
                     }}
                 >
                     Non-Technical Events
                 </button>
             </div>
 
-            <div style={{ 
+            <div className="events-grid" style={{ 
                 display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', 
                 gap: '2.5rem', 
                 maxWidth: '1200px', 
                 width: '100%' 
@@ -80,7 +111,7 @@ const Events = () => {
                 {categoryEvents.map((event, index) => (
                     <div 
                         key={event.id} 
-                        className="hawkins-container event-card"
+                        className="hawkins-container event-card events-card"
                         style={{ 
                             display: 'flex', 
                             flexDirection: 'column', 
@@ -104,7 +135,7 @@ const Events = () => {
                                 marginBottom: '1rem',
                                 letterSpacing: '1px',
                                 fontSize: '0.9rem'
-                            }}>
+                            }} className="events-meta">
                                 📅 {event.date} <br/> 
                                 📍 {event.location} <br/>
                                 💰 Registration Fee: ₹{event.eventFee}
@@ -115,7 +146,8 @@ const Events = () => {
                         </div>
                         
                         <button 
-                            onClick={() => navigate(`/events/${event.id}`)}
+                            className="events-join-btn"
+                            onClick={() => navigate(`/events/${event.id}`, { state: { fromCategory: activeCategory } })}
                             style={{
                                 background: 'transparent',
                                 border: '1px solid var(--color-primary)',
@@ -151,6 +183,72 @@ const Events = () => {
                     </div>
                 )}
             </div>
+
+            <style>{`
+                .events-page {
+                    width: 100%;
+                }
+
+                .events-filter-btn {
+                    min-width: 220px;
+                }
+
+                @media (max-width: 768px) {
+                    .events-page {
+                        padding-top: 3rem !important;
+                        padding-bottom: 3rem !important;
+                    }
+
+                    .events-filter-row {
+                        width: 100%;
+                        margin-bottom: 2rem !important;
+                    }
+
+                    .events-filter-btn {
+                        flex: 1 1 220px;
+                        min-width: 0;
+                    }
+
+                    .events-grid {
+                        gap: 1.4rem !important;
+                    }
+                }
+
+                @media (max-width: 540px) {
+                    .events-filter-row {
+                        gap: 0.7rem !important;
+                    }
+
+                    .events-filter-btn {
+                        width: 100%;
+                        padding: 0.65rem 0.8rem !important;
+                        font-size: 0.82rem !important;
+                        letter-spacing: 0.7px !important;
+                    }
+
+                    .events-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+
+                    .events-card {
+                        padding: 1.1rem !important;
+                    }
+
+                    .events-card .stranger-section-title {
+                        font-size: 1.2rem !important;
+                    }
+
+                    .events-meta {
+                        font-size: 0.8rem !important;
+                        line-height: 1.65;
+                    }
+
+                    .events-join-btn {
+                        width: 100%;
+                        text-align: center;
+                    }
+                }
+            `}</style>
         </div>
     );
 };

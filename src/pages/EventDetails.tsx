@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { eventsData } from '../data/eventsData'; 
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { eventsData, type EventCategory } from '../data/eventsData'; 
 
 const EventDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const event = eventsData.find(e => e.id === Number(id));
     
     // State to handle image load error
@@ -17,7 +18,7 @@ const EventDetails = () => {
 
     if (!event) {
         return (
-            <div style={{ padding: '5rem', textAlign: 'center', color: '#fff' }}>
+            <div style={{ padding: 'clamp(2rem, 7vw, 5rem)', textAlign: 'center', color: '#fff' }}>
                 <h1 className="stranger-title">404</h1>
                 <p>Event not found in this dimension.</p>
                 <button onClick={() => navigate('/events')} style={{ marginTop: '2rem', background: 'var(--color-primary)', border: 'none', padding: '1rem', cursor: 'pointer' }}>Go Back</button>
@@ -25,23 +26,34 @@ const EventDetails = () => {
         );
     }
 
+    const locationState = location.state as { fromCategory?: EventCategory } | null;
+    const backCategory: EventCategory =
+        locationState?.fromCategory === 'technical' || locationState?.fromCategory === 'non-technical'
+            ? locationState.fromCategory
+            : event.category;
+
+    const handleBackToEvents = () => {
+        navigate(`/events?category=${backCategory}`);
+    };
+
     return (
-        <div style={{ padding: '2rem', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <div className="event-details-page" style={{ padding: 'clamp(1rem, 4vw, 2rem)', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             
-            <div className="hawkins-container" style={{ 
+            <div className="hawkins-container event-details-container" style={{ 
                 maxWidth: '1000px', 
                 width: '100%', 
                 position: 'relative', 
-                padding: '3rem',
+                padding: 'clamp(1.2rem, 4vw, 3rem)',
                 border: '1px solid #444',
                 // FIX: Ensure overflow is visible so the rotated image isn't clipped
                 overflow: 'visible' 
             }}>
                 
                 {/* 1. Header with Back Button */}
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem', borderBottom: '2px solid var(--color-primary)', paddingBottom: '1rem' }}>
+                <div className="event-details-header" style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem', borderBottom: '2px solid var(--color-primary)', paddingBottom: '1rem' }}>
                     <button 
-                        onClick={() => navigate(-1)}
+                        className="event-details-back-button"
+                        onClick={handleBackToEvents}
                         style={{ 
                             background: 'transparent', 
                             border: 'none', 
@@ -53,7 +65,7 @@ const EventDetails = () => {
                     >
                         ←
                     </button>
-                    <h1 style={{ 
+                    <h1 className="event-details-title" style={{ 
                         fontFamily: 'var(--font-heading)', 
                         fontSize: 'clamp(1.5rem, 5vw, 3rem)', 
                         color: '#fff', 
@@ -66,16 +78,16 @@ const EventDetails = () => {
                 </div>
 
                 {/* 2. Top Section: Details & Image */}
-                <div style={{ display: 'flex', flexDirection: 'row', gap: '3rem', flexWrap: 'wrap', marginBottom: '3rem' }}>
+                <div className="event-details-top" style={{ display: 'flex', flexDirection: 'row', gap: '3rem', flexWrap: 'wrap', marginBottom: '3rem' }}>
                     
                     {/* Left: Text Details */}
-                    <div style={{ flex: '1 1 400px' }}>
+                    <div className="event-details-copy" style={{ flex: '1 1 400px' }}>
                         <h2 className="stranger-section-title">Event Details</h2>
                         <p className="stranger-text" style={{ marginBottom: '1.5rem', color: '#ccc' }}>
                             {event.fullDescription || event.description}
                         </p>
                         
-                        <div style={{ fontFamily: 'var(--font-digital)', color: 'var(--color-neon-blue)', lineHeight: '1.8', fontSize: '1.1rem' }}>
+                        <div className="event-details-meta" style={{ fontFamily: 'var(--font-digital)', color: 'var(--color-neon-blue)', lineHeight: '1.8', fontSize: '1.1rem' }}>
                             <p><strong>Team Size:</strong> {event.teamSize}</p>
                             <p><strong>Venue:</strong> {event.venue}</p>
                             <p><strong>Time:</strong> {event.time}</p>
@@ -84,7 +96,7 @@ const EventDetails = () => {
                     </div>
 
                     {/* Right: Poster/Image - FIXED VISIBILITY */}
-                    <div style={{ flex: '1 1 300px', minWidth: '280px' }}>
+                    <div className="event-details-poster-col" style={{ flex: '1 1 300px', minWidth: 0 }}>
                         <div style={{ 
                             border: '4px solid #fff', 
                             padding: '5px', 
@@ -123,9 +135,9 @@ const EventDetails = () => {
 
                 {/* 4. Rounds */}
                 <h2 className="stranger-section-title">Rounds</h2>
-                <div style={{ 
+                <div className="event-details-rounds" style={{ 
                     display: 'grid', 
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', 
                     gap: '2rem',
                     marginBottom: '3rem'
                 }}>
@@ -153,20 +165,21 @@ const EventDetails = () => {
                 </div>
 
                 {/* 5. Registration Buttons */}
-                <div style={{ marginBottom: '3rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                    <div className="event-details-actions" style={{ marginBottom: '3rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                     <button 
+                            className="event-details-action"
                         onClick={() => navigate(`/register/${event.id}`)}
                         style={buttonStyle}
                     >
                         Register Now
                     </button>
-                    <button style={{ ...buttonStyle, background: 'transparent', color: '#fff', borderColor: '#fff' }}>
+                        {/* <button className="event-details-action" style={{ ...buttonStyle, background: 'transparent', color: '#fff', borderColor: '#fff' }}>
                         Event Brochure
-                    </button>
+                    </button> */}
                 </div>
 
                 {/* 6. Coordinators */}
-                <div style={{ borderTop: '1px dashed #666', paddingTop: '2rem', display: 'flex', flexWrap: 'wrap', gap: '3rem' }}>
+                    <div className="event-details-coordinators" style={{ borderTop: '1px dashed #666', paddingTop: '2rem', display: 'flex', flexWrap: 'wrap', gap: '3rem' }}>
                     <div>
                         <h3 style={{ color: 'var(--color-primary)', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)' }}>Student Coordinators</h3>
                         {event.coordinators && event.coordinators.student.map((c: string, i: number) => (
@@ -180,6 +193,91 @@ const EventDetails = () => {
                         ))}
                     </div>
                 </div>
+
+                <style>{`
+                    .event-details-page {
+                        width: 100%;
+                    }
+
+                    .event-details-action {
+                        min-width: 170px;
+                    }
+
+                    @media (max-width: 900px) {
+                        .event-details-top {
+                            gap: 1.6rem !important;
+                            margin-bottom: 2.1rem !important;
+                        }
+
+                        .event-details-copy {
+                            flex: 1 1 100% !important;
+                        }
+
+                        .event-details-poster-col {
+                            flex: 1 1 100% !important;
+                        }
+
+                        .event-details-poster-col .event-image-container {
+                            max-width: 440px;
+                            margin: 0 auto;
+                        }
+
+                        .event-details-rounds {
+                            gap: 1.3rem !important;
+                        }
+                    }
+
+                    @media (max-width: 640px) {
+                        .event-details-page {
+                            padding: 1rem 0.7rem !important;
+                        }
+
+                        .event-details-container {
+                            padding: 1.05rem !important;
+                        }
+
+                        .event-details-header {
+                            margin-bottom: 1.2rem !important;
+                            padding-bottom: 0.7rem !important;
+                        }
+
+                        .event-details-back-button {
+                            font-size: 1.55rem !important;
+                            margin-right: 0.65rem !important;
+                        }
+
+                        .event-details-title {
+                            letter-spacing: 1px !important;
+                            line-height: 1.15;
+                        }
+
+                        .event-details-meta {
+                            font-size: 0.92rem !important;
+                            line-height: 1.62 !important;
+                        }
+
+                        .event-details-rounds {
+                            grid-template-columns: 1fr !important;
+                            margin-bottom: 2rem !important;
+                        }
+
+                        .event-details-actions {
+                            flex-direction: column;
+                            margin-bottom: 2rem !important;
+                        }
+
+                        .event-details-action {
+                            width: 100%;
+                            font-size: 0.95rem !important;
+                            padding: 0.85rem 1rem !important;
+                            text-align: center;
+                        }
+
+                        .event-details-coordinators {
+                            gap: 1.2rem !important;
+                        }
+                    }
+                `}</style>
 
             </div>
         </div>
