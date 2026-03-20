@@ -22,6 +22,11 @@ function getDbCoreConfig() {
     password: process.env.DB_PASSWORD || '',
   };
 
+  const parsedPort = Number(process.env.DB_PORT);
+  if (Number.isInteger(parsedPort) && parsedPort > 0) {
+    config.port = parsedPort;
+  }
+
   // Some managed MySQL providers require TLS connections.
   if (process.env.DB_SSL === 'true') {
     config.ssl = { rejectUnauthorized: false };
@@ -111,7 +116,7 @@ export async function initDB() {
     console.error('   Error:', err.message);
     console.error('   Code:', err.code || 'UNKNOWN');
     console.error('');
-    console.error('   Netlify fix: Set DB_HOST/DB_USER/DB_PASSWORD/DB_NAME in Site settings -> Environment variables.');
+    console.error('   Netlify fix: Set DB_HOST/DB_USER/DB_PASSWORD/DB_NAME (and DB_PORT if provided by host) in Site settings -> Environment variables.');
     console.error('   DB_HOST must be a cloud MySQL hostname, not localhost.');
     console.error('   If your DB user cannot create databases, set DB_SKIP_CREATE_DB=true in Netlify env vars.');
     console.error('');
@@ -122,7 +127,7 @@ export async function initDB() {
 function checkDB(req, res, next) {
   if (!dbReady || !pool) {
     return res.status(503).json({ 
-      error: 'Database not connected. In Netlify, configure DB_HOST/DB_USER/DB_PASSWORD/DB_NAME (cloud MySQL, not localhost). If needed, set DB_SKIP_CREATE_DB=true.' 
+      error: 'Database not connected. In Netlify, configure DB_HOST/DB_USER/DB_PASSWORD/DB_NAME and DB_PORT (cloud MySQL, not localhost). If needed, set DB_SKIP_CREATE_DB=true.' 
     });
   }
   next();
@@ -154,6 +159,7 @@ app.get('/api/health', (req, res) => {
     server: 'running', 
     database: dbReady ? 'connected' : 'NOT connected — check Netlify env vars',
     dbHost: process.env.DB_HOST || 'localhost',
+    dbPort: process.env.DB_PORT || '3306',
     dbUser: process.env.DB_USER || 'root',
     dbName: process.env.DB_NAME || 'procomm_literary',
   });
