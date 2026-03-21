@@ -116,7 +116,11 @@ const AdminDashboard = () => {
 
     const handleDownloadCSV = async () => {
         try {
-            const response = await fetch(`${API_URL}/api/admin/export/csv`, {
+            const csvUrl = selectedEvent === 'all'
+                ? `${API_URL}/api/admin/export/csv`
+                : `${API_URL}/api/admin/export/csv?event=${encodeURIComponent(selectedEvent)}`;
+
+            const response = await fetch(csvUrl, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -304,7 +308,7 @@ const AdminDashboard = () => {
                         <table style={tableStyle}>
                             <thead>
                                 <tr>
-                                    {['#', 'EVENT', 'TEAM', 'LEAD', 'COLLEGE', 'PHONE', 'TRANSPORT', 'SIZE', 'DATE', 'ACTIONS'].map(h => (
+                                    {['#', 'EVENT', 'TEAM', 'LEAD', 'COLLEGE', 'PHONE', 'TRANSPORT', 'LOCALITY', 'SIZE', 'DATE', 'ACTIONS'].map(h => (
                                         <th key={h} style={thStyle}>{h}</th>
                                     ))}
                                 </tr>
@@ -354,6 +358,9 @@ const AdminDashboard = () => {
                                                     {reg.transport === 'yes' ? 'YES' : 'NO'}
                                                 </span>
                                             </td>
+                                            <td style={tdStyle}>
+                                                {reg.transport === 'yes' ? (reg.locality || 'Not provided') : '-'}
+                                            </td>
                                             <td style={{ ...tdStyle, textAlign: 'center' }}>
                                                 <span style={sizeBadgeStyle}>{reg.team_size}</span>
                                             </td>
@@ -363,7 +370,7 @@ const AdminDashboard = () => {
                                                 })}
                                             </td>
                                             <td style={{ ...tdStyle, whiteSpace: 'nowrap' }}>
-                                                {reg.members.length > 0 && (
+                                                {(reg.members.length > 0 || reg.transport === 'yes') && (
                                                     <button
                                                         onClick={() => setExpandedRow(expandedRow === reg.id ? null : reg.id)}
                                                         style={actionBtnStyle}
@@ -390,9 +397,9 @@ const AdminDashboard = () => {
                                         </tr>
 
                                         {/* Expanded Members Row */}
-                                        {expandedRow === reg.id && reg.members.length > 0 && (
+                                        {expandedRow === reg.id && (
                                             <tr>
-                                                <td colSpan={10} style={expandedCellStyle}>
+                                                <td colSpan={11} style={expandedCellStyle}>
                                                     <div style={membersContainerStyle}>
                                                         {reg.transport === 'yes' && (
                                                             <div style={{ marginBottom: '0.8rem' }}>
@@ -405,19 +412,26 @@ const AdminDashboard = () => {
                                                                 </div>
                                                             </div>
                                                         )}
-                                                        <p style={membersHeaderStyle}>TEAM MEMBERS</p>
-                                                        <div style={membersGridStyle}>
-                                                            {reg.members.map((m, i) => (
-                                                                <div key={m.id} style={memberCardStyle}>
-                                                                    <div style={memberAvatarStyle}>{i + 2}</div>
-                                                                    <div>
-                                                                        <div style={{ color: '#fff', fontSize: '0.85rem', fontWeight: 'bold' }}>{m.member_name}</div>
-                                                                        <div style={{ color: '#888', fontSize: '0.7rem' }}>{m.member_email}</div>
-                                                                        <div style={{ color: 'var(--color-neon-blue)', fontSize: '0.7rem', fontFamily: 'var(--font-digital)' }}>{m.member_phone}</div>
-                                                                    </div>
+
+                                                        {reg.members.length > 0 ? (
+                                                            <>
+                                                                <p style={membersHeaderStyle}>TEAM MEMBERS</p>
+                                                                <div style={membersGridStyle}>
+                                                                    {reg.members.map((m, i) => (
+                                                                        <div key={m.id} style={memberCardStyle}>
+                                                                            <div style={memberAvatarStyle}>{i + 2}</div>
+                                                                            <div>
+                                                                                <div style={{ color: '#fff', fontSize: '0.85rem', fontWeight: 'bold' }}>{m.member_name}</div>
+                                                                                <div style={{ color: '#888', fontSize: '0.7rem' }}>{m.member_email}</div>
+                                                                                <div style={{ color: 'var(--color-neon-blue)', fontSize: '0.7rem', fontFamily: 'var(--font-digital)' }}>{m.member_phone}</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
                                                                 </div>
-                                                            ))}
-                                                        </div>
+                                                            </>
+                                                        ) : (
+                                                            <p style={{ color: '#888', fontSize: '0.75rem', marginTop: '0.4rem' }}>No additional members for this registration.</p>
+                                                        )}
                                                     </div>
                                                 </td>
                                             </tr>

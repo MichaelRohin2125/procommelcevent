@@ -301,8 +301,13 @@ app.get('/api/admin/stats', authenticateToken, checkDB, async (req, res) => {
 // ─── GET /api/admin/export/csv ─ Download all registrations as CSV ──
 app.get('/api/admin/export/csv', authenticateToken, checkDB, async (req, res) => {
   try {
+    const eventFilter = (req.query.event || '').toString().trim();
+    const hasEventFilter = eventFilter.length > 0;
     const [registrations] = await pool.query(
-      `SELECT * FROM registrations ORDER BY registered_at DESC`
+      hasEventFilter
+        ? `SELECT * FROM registrations WHERE event_name = ? ORDER BY registered_at DESC`
+        : `SELECT * FROM registrations ORDER BY registered_at DESC`,
+      hasEventFilter ? [eventFilter] : []
     );
 
     // Fetch members for each registration
@@ -318,9 +323,13 @@ app.get('/api/admin/export/csv', authenticateToken, checkDB, async (req, res) =>
     const headers = [
       'S.No', 'Event Name', 'Team Name', 'College Name', 'Department', 'Branch/Year',
       'Team Lead Name', 'Team Lead Email', 'Team Lead Phone', 'Team Size',
+      'Transport', 'Team Lead Locality',
       'Member 2 Name', 'Member 2 Email', 'Member 2 Phone',
+      'Member 2 Locality',
       'Member 3 Name', 'Member 3 Email', 'Member 3 Phone',
+      'Member 3 Locality',
       'Member 4 Name', 'Member 4 Email', 'Member 4 Phone',
+      'Member 4 Locality',
       'Registered At'
     ];
 
@@ -337,6 +346,15 @@ app.get('/api/admin/export/csv', authenticateToken, checkDB, async (req, res) =>
     // Build CSV rows
     const rows = registrations.map((reg, idx) => {
       const members = reg.members || [];
+      let memberLocalities = [];
+      if (reg.member_localities) {
+        try {
+          const parsed = JSON.parse(reg.member_localities);
+          memberLocalities = Array.isArray(parsed) ? parsed : [];
+        } catch {
+          memberLocalities = [];
+        }
+      }
       const row = [
         idx + 1,
         reg.event_name,
@@ -348,15 +366,20 @@ app.get('/api/admin/export/csv', authenticateToken, checkDB, async (req, res) =>
         reg.team_lead_email,
         reg.team_lead_phone,
         reg.team_size,
+        reg.transport || 'no',
+        reg.locality || '',
         members[0]?.member_name || '',
         members[0]?.member_email || '',
         members[0]?.member_phone || '',
+        memberLocalities[0] || '',
         members[1]?.member_name || '',
         members[1]?.member_email || '',
         members[1]?.member_phone || '',
+        memberLocalities[1] || '',
         members[2]?.member_name || '',
         members[2]?.member_email || '',
         members[2]?.member_phone || '',
+        memberLocalities[2] || '',
         new Date(reg.registered_at).toLocaleString('en-IN', { 
           day: '2-digit', month: 'short', year: 'numeric', 
           hour: '2-digit', minute: '2-digit' 
