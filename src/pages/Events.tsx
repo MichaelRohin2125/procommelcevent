@@ -117,7 +117,7 @@ const Events = () => {
                     marginBottom: '2.5rem'
                 }}
             >
-                ✦ Participants are allowed to register for a maximum of one event only. ✦ <br /> Registration fee is applicable Only for shortlisted teams.
+                ✦ Participants are allowed to register for a maximum of one event only ✦ <br /> ✦ Registration fee is applicable Only for shortlisted teams ✦
             </div>
 
             <div className="events-grid" style={{ 

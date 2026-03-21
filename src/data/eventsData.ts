@@ -284,7 +284,7 @@ export const eventsData: Event[] = [
             name: "Winner Announcement", 
             mode: "Offline", 
             date: "March 30", 
-            desc: "Final results are घोषित and winners are announced." 
+            desc: "Final results are declared and winners are announced." 
         }
     ],
     coordinators: {
