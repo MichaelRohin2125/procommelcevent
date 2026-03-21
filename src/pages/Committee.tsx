@@ -72,14 +72,14 @@ const committeeSections: CommitteeSection[] = [
                 photoKey: 's3',
                 photo: 'https://i.pravatar.cc/320?img=55'
             },
-            {
-                id: 's4',
-                name: 'P P Saranya',
-                role: 'Web Master',
-                subtitle: 'IEEE ProComm',
-                photoKey: 's4',
-                photo: 'https://i.pravatar.cc/320?img=25'
-            }
+            // {
+            //     id: 's4',
+            //     name: 'P P Saranya',
+            //     role: 'Web Master',
+            //     subtitle: 'IEEE ProComm',
+            //     photoKey: 's4',
+            //     photo: 'https://i.pravatar.cc/320?img=25'
+            // }
         ]
     },
     // {
