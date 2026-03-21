@@ -16,7 +16,7 @@ const homeSignals: SignalItem[] = [
     { title: 'Portal Closes', content: 'Registration Ends', date: '25th March 2026 - 11:59 PM', side: 'right' },
     { title: 'Chosen Ones Revealed', content: 'Shortlisted Teams Announcement', date: '26th March 2026 - 6:00 PM', side: 'left' },
     { title: 'Checkpoint Locked', content: 'Payment Confirmation Slot Booking', date: '27th March 2026 - 8.00 PM', side: 'right' },
-    { title: 'The Event Begins', content: '', date: '30th March - 9:00 AM', side: 'right' }
+    { title: 'The Event Begins', content: '', date: '30th March - 9:00 AM', side: 'left' }
 ];
 
 const Home = () => {

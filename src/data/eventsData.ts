@@ -110,7 +110,7 @@ export const eventsData: Event[] = [
             "Saranya P P - 8122930692"
         ],
         staff: [
-            "Srija\nAssistant Professor\nDepartment of English\nSri Sairam Engineering College"
+            "Dr. Srija V\nAssistant Professor\nDepartment of English\nSri Sairam Engineering College"
         ]
     }
 
