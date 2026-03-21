@@ -44,6 +44,19 @@ async function createPool() {
   });
 }
 
+async function ensureColumnExists(tableName, columnName, definition) {
+  const [rows] = await pool.query(
+    `SELECT COUNT(*) AS count
+     FROM INFORMATION_SCHEMA.COLUMNS
+     WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?`,
+    [tableName, columnName]
+  );
+
+  if (rows[0].count === 0) {
+    await pool.query(`ALTER TABLE \`${tableName}\` ADD COLUMN \`${columnName}\` ${definition}`);
+  }
+}
+
 // ─── Initialize Database Tables ─────────────────────────────────────
 export async function initDB() {
   try {
@@ -92,9 +105,17 @@ export async function initDB() {
         team_lead_email VARCHAR(255) NOT NULL,
         team_lead_phone VARCHAR(20) NOT NULL,
         team_size INT NOT NULL DEFAULT 1,
+        transport VARCHAR(10) NOT NULL DEFAULT 'no',
+        locality VARCHAR(255) NULL,
+        member_localities TEXT NULL,
         registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
+
+    // Backfill transport-related columns for older deployments.
+    await ensureColumnExists('registrations', 'transport', `VARCHAR(10) NOT NULL DEFAULT 'no'`);
+    await ensureColumnExists('registrations', 'locality', `VARCHAR(255) NULL`);
+    await ensureColumnExists('registrations', 'member_localities', `TEXT NULL`);
 
     // Create team_members table
     await pool.query(`
@@ -171,7 +192,8 @@ app.post('/api/register', checkDB, async (req, res) => {
     const {
       eventId, eventName, teamName, collegeName,
       department, branch, teamLeadName, teamLeadEmail,
-      teamLeadPhone, teamSize, members
+      teamLeadPhone, teamSize, members, transport,
+      locality, memberLocalities
     } = req.body;
 
     // Validate required fields
@@ -183,10 +205,12 @@ app.post('/api/register', checkDB, async (req, res) => {
     const [result] = await pool.query(
       `INSERT INTO registrations 
         (event_id, event_name, team_name, college_name, department, branch, 
-         team_lead_name, team_lead_email, team_lead_phone, team_size)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         team_lead_name, team_lead_email, team_lead_phone, team_size, transport, locality, member_localities)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [eventId, eventName || '', teamName, collegeName || '', department || '', 
-       branch || '', teamLeadName, teamLeadEmail || '', teamLeadPhone, teamSize || 1]
+       branch || '', teamLeadName, teamLeadEmail || '', teamLeadPhone, teamSize || 1,
+       transport || 'no', transport === 'yes' ? (locality || null) : null,
+       transport === 'yes' ? JSON.stringify(memberLocalities || []) : null]
     );
 
     const registrationId = result.insertId;

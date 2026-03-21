@@ -4,8 +4,8 @@ const CountdownClock = () => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
     useEffect(() => {
-        // Set target date to March 30, 2026 at 9:00 AM
-        const targetDate = new Date('2026-03-30T09:00:00');
+        // Set target date to March 25, 2026 at 11:59:59 AM
+        const targetDate = new Date('2026-03-25T11:59:59');
 
         const interval = setInterval(() => {
             const now = new Date();

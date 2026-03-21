@@ -22,6 +22,9 @@ interface Registration {
     team_lead_email: string;
     team_lead_phone: string;
     team_size: number;
+    transport?: string;
+    locality?: string | null;
+    member_localities?: string | null;
     registered_at: string;
     members: Member[];
 }
@@ -42,6 +45,16 @@ const AdminDashboard = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [expandedRow, setExpandedRow] = useState<number | null>(null);
     const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
+
+    const parseMemberLocalities = (raw?: string | null): string[] => {
+        if (!raw) return [];
+        try {
+            const parsed = JSON.parse(raw);
+            return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === 'string') : [];
+        } catch {
+            return [];
+        }
+    };
 
     const token = localStorage.getItem('adminToken');
 
@@ -291,7 +304,7 @@ const AdminDashboard = () => {
                         <table style={tableStyle}>
                             <thead>
                                 <tr>
-                                    {['#', 'EVENT', 'TEAM', 'LEAD', 'COLLEGE', 'PHONE', 'SIZE', 'DATE', 'ACTIONS'].map(h => (
+                                    {['#', 'EVENT', 'TEAM', 'LEAD', 'COLLEGE', 'PHONE', 'TRANSPORT', 'SIZE', 'DATE', 'ACTIONS'].map(h => (
                                         <th key={h} style={thStyle}>{h}</th>
                                     ))}
                                 </tr>
@@ -326,6 +339,21 @@ const AdminDashboard = () => {
                                             </td>
                                             <td style={tdStyle}>{reg.college_name}</td>
                                             <td style={{ ...tdStyle, fontFamily: 'var(--font-digital)', fontSize: '0.75rem' }}>{reg.team_lead_phone}</td>
+                                            <td style={tdStyle}>
+                                                <span style={{
+                                                    display: 'inline-block',
+                                                    padding: '0.2rem 0.45rem',
+                                                    borderRadius: '999px',
+                                                    border: `1px solid ${reg.transport === 'yes' ? 'rgba(34, 197, 94, 0.5)' : 'rgba(156, 163, 175, 0.35)'}`,
+                                                    color: reg.transport === 'yes' ? '#22c55e' : '#9ca3af',
+                                                    fontSize: '0.68rem',
+                                                    fontFamily: 'var(--font-digital)',
+                                                    letterSpacing: '0.5px',
+                                                    textTransform: 'uppercase'
+                                                }}>
+                                                    {reg.transport === 'yes' ? 'YES' : 'NO'}
+                                                </span>
+                                            </td>
                                             <td style={{ ...tdStyle, textAlign: 'center' }}>
                                                 <span style={sizeBadgeStyle}>{reg.team_size}</span>
                                             </td>
@@ -364,8 +392,19 @@ const AdminDashboard = () => {
                                         {/* Expanded Members Row */}
                                         {expandedRow === reg.id && reg.members.length > 0 && (
                                             <tr>
-                                                <td colSpan={9} style={expandedCellStyle}>
+                                                <td colSpan={10} style={expandedCellStyle}>
                                                     <div style={membersContainerStyle}>
+                                                        {reg.transport === 'yes' && (
+                                                            <div style={{ marginBottom: '0.8rem' }}>
+                                                                <p style={membersHeaderStyle}>TRANSPORT DETAILS</p>
+                                                                <div style={{ color: '#ccc', fontSize: '0.78rem', lineHeight: 1.6 }}>
+                                                                    <div><strong>Team Lead Locality:</strong> {reg.locality || 'Not provided'}</div>
+                                                                    {parseMemberLocalities(reg.member_localities).length > 0 && (
+                                                                        <div><strong>Member Localities:</strong> {parseMemberLocalities(reg.member_localities).join(', ')}</div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                         <p style={membersHeaderStyle}>TEAM MEMBERS</p>
                                                         <div style={membersGridStyle}>
                                                             {reg.members.map((m, i) => (

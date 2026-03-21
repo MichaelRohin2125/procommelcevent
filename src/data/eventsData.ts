@@ -1,5 +1,15 @@
 export type EventCategory = 'technical' | 'non-technical';
 
+import promptverseImage from './promptverse.png';
+import poiImage from './poi.png';
+import usdImage from './usd.png';
+import nhImage from './nh.png';
+import uscImage from './usc.png';
+import etudImage from './etud.png';
+import survivoxImage from './survivox.png';
+import case404Image from './case404.png';
+import memestormImage from './memestorm.png';
+
 export interface Event {
     id: number;
     title: string;
@@ -41,7 +51,7 @@ export const eventsData: Event[] = [
     teamSize: "3 members",
     time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
-    image: "/src/data/promptverse.png",
+    image: promptverseImage,
     instructions: "Teams of 3 must bring a laptop with Ethernet cable and follow prompt limits; AI is allowed only in the specified round.",
     eligibility: "Open to all students from any department and year.",
     eventFee: 100,
@@ -82,7 +92,7 @@ export const eventsData: Event[] = [
     teamSize: "3 to 4 members",
     time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
-    image: "/src/data/poi.png",
+    image: poiImage,
     instructions: "Ideas must be original and innovative. Creative connection with Stranger Things theme is mandatory. Prototype/demo is optional but earns bonus marks. Strictly follow the time limit (5+2 minutes). Maintain professional behavior during presentation and Q&A. Jury decisions are final.",
     eligibility: "Open to all students.",
     eventFee: 100,
@@ -118,7 +128,7 @@ export const eventsData: Event[] = [
     teamSize: "2 members",
     time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
-    image: "/src/data/usd.png",
+    image: usdImage,
     instructions: "English must be used for all dialogues and narration. Vulgar, offensive, or inappropriate content is strictly prohibited. Teams must adhere to time limits. All team members must participate actively. Judges’ decisions are final.",
     eligibility: "Open to all students.",
     eventFee: 50,
@@ -165,7 +175,7 @@ export const eventsData: Event[] = [
     teamSize: "s to 4 members",
     time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
-    image: "/src/data/nh.png",
+    image: nhImage,
     instructions: "Each team must bring at least one laptop. Internet usage is partially allowed only for code execution under supervision. Searching for solutions or copying code is strictly prohibited. Use of AI tools (ChatGPT, Copilot, etc.) is strictly prohibited. All team members must participate actively. Judges’ decisions are final.",
     eligibility: "Open to all students.",
     eventFee: 100,
@@ -206,7 +216,7 @@ export const eventsData: Event[] = [
     teamSize: "3 members",
     time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
-    image: "/src/data/usc.png",
+    image: uscImage,
     instructions: "Teams of 3 must bring two laptops with Ethernet cables and a TinkerCAD account. Participants should have basic knowledge of Arduino (C programming) and complete tasks within the given time.",
     eligibility: "Open to all students.",
     eventFee: 100,
@@ -253,7 +263,7 @@ export const eventsData: Event[] = [
     teamSize: "2 to 3 members",
     time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
-    image: "/src/data/etud.png",
+    image: etudImage,
     instructions: "Each team must bring at least one laptop. Internet usage is strictly prohibited. Use of AI tools is strictly prohibited. No communication between teams. All members must participate. Judges’ decisions are final.",
     eligibility: "Open to all students.",
     eventFee: 100,
@@ -303,7 +313,7 @@ export const eventsData: Event[] = [
     teamSize: "Individual",
     time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
-    image: "/src/data/survivox.png",
+    image: survivoxImage,
     instructions: "Speech should be in English only. Characters will be disclosed on the spot. Avoid inappropriate or vulgar content. Adhere to time limits. Judges’ decisions are final.",
     eligibility: "Open to all students.",
     eventFee: 25,
@@ -339,7 +349,7 @@ export const eventsData: Event[] = [
     teamSize: "2 to 3 members",
     time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
-    image: "/src/data/case404.png",
+    image: case404Image,
     instructions: "Each team must bring a pen and notebook. AI tools, mobile phones, and smart devices are strictly prohibited. All teams must be present for every round. Judges’ decisions are final.",
     eligibility: "Open to all students with strong English comprehension, logical reasoning, and analytical skills.",
     eventFee: 50,
@@ -386,7 +396,7 @@ export const eventsData: Event[] = [
     teamSize: "2 members",
     time: "9:00 AM - 4:00 PM",
     venue: "Sri Sairam Engineering College",
-    image: "/src/data/memestorm.png",
+    image: memestormImage,
     instructions: "Memes must be original and digitally created. Plagiarism is strictly prohibited. Only technical topics are allowed. Vulgar or offensive content is not permitted. Jury decisions are final. Participants should bring their own laptop.",
     eligibility: "Open to all students.",
     eventFee: 50,
