@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { eventsData } from '../data/eventsData';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://localhost:5000' : 'https://procommelcevent-tbj8.onrender.com');
+const REGISTRATION_CLOSED = true;
 
 type TeamSizeRule = {
     min: number;
@@ -166,6 +167,49 @@ const Registration = () => {
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
     if (!event) return <div>Event not found</div>;
+
+    if (REGISTRATION_CLOSED) {
+        return (
+            <div className="registration-page" style={{
+                padding: '4rem clamp(1rem, 4vw, 2rem)',
+                minHeight: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
+                <div className="hawkins-container registration-card" style={{ maxWidth: '800px', width: '100%', padding: '3rem', textAlign: 'center' }}>
+                    <h1 className="stranger-section-title" style={{ fontSize: '1.8rem', border: 'none', marginBottom: '1rem' }}>
+                        Registration Closed
+                    </h1>
+                    <p style={{
+                        fontFamily: 'var(--font-digital)',
+                        color: '#d6d6d6',
+                        lineHeight: 1.7,
+                        maxWidth: '580px',
+                        margin: '0 auto 1.5rem auto'
+                    }}>
+                        Registration is closed for all events. Thank you.
+                    </p>
+                    <button
+                        type="button"
+                        className="registration-action-btn"
+                        onClick={() => navigate('/events')}
+                        style={{ ...submitButtonStyle, maxWidth: '260px', width: '100%' }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.background = '#fff';
+                            e.currentTarget.style.color = 'var(--color-primary)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'var(--color-primary)';
+                            e.currentTarget.style.color = '#000';
+                        }}
+                    >
+                        Back to Events
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="registration-page" style={{ 

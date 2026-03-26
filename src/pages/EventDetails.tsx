@@ -10,6 +10,7 @@ const EventDetails = () => {
     
     // State to handle image load error
     const [imageError, setImageError] = useState(false);
+    const [showRegistrationClosedPopup, setShowRegistrationClosedPopup] = useState(false);
 
     // Scroll to top on load
     useEffect(() => {
@@ -168,7 +169,7 @@ const EventDetails = () => {
                     <div className="event-details-actions" style={{ marginBottom: '3rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                     <button 
                             className="event-details-action"
-                        onClick={() => navigate(`/register/${event.id}`)}
+                        onClick={() => setShowRegistrationClosedPopup(true)}
                         style={buttonStyle}
                     >
                         Register Now
@@ -177,6 +178,32 @@ const EventDetails = () => {
                         Event Brochure
                     </button> */}
                 </div>
+
+                {showRegistrationClosedPopup && (
+                    <div style={closedOverlayStyle} role="dialog" aria-modal="true" aria-labelledby="registration-closed-title">
+                        <div className="event-details-closed-popup" style={closedPopupStyle}>
+                            <h2 id="registration-closed-title" style={closedTitleStyle}>REGISTRATION CLOSED</h2>
+                            <p style={closedTextStyle}>
+                                Registration is closed for all events. Thank you.
+                            </p>
+                            <button
+                                type="button"
+                                style={closedButtonStyle}
+                                onClick={() => setShowRegistrationClosedPopup(false)}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = '#ffffff';
+                                    e.currentTarget.style.color = '#050505';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'var(--color-primary)';
+                                    e.currentTarget.style.color = '#050505';
+                                }}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                )}
 
                 {/* 6. Coordinators */}
                     <div className="event-details-coordinators" style={{ borderTop: '1px dashed #666', paddingTop: '2rem', display: 'flex', flexWrap: 'wrap', gap: '3rem' }}>
@@ -339,6 +366,59 @@ const buttonStyle: React.CSSProperties = {
     cursor: 'pointer',
     boxShadow: '0 0 10px var(--color-primary)',
     transition: 'all 0.3s ease'
+};
+
+const closedOverlayStyle: React.CSSProperties = {
+    position: 'fixed',
+    inset: 0,
+    background: 'rgba(0, 0, 0, 0.75)',
+    backdropFilter: 'blur(4px)',
+    zIndex: 999,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '1.5rem'
+};
+
+const closedPopupStyle: React.CSSProperties = {
+    width: '100%',
+    maxWidth: '560px',
+    background: 'linear-gradient(180deg, rgba(16, 16, 16, 0.96) 0%, rgba(8, 8, 8, 0.96) 100%)',
+    border: '1px solid rgba(231, 29, 54, 0.5)',
+    boxShadow: '0 0 30px rgba(231, 29, 54, 0.35), inset 0 0 18px rgba(231, 29, 54, 0.1)',
+    padding: '2rem',
+    textAlign: 'center'
+};
+
+const closedTitleStyle: React.CSSProperties = {
+    fontFamily: 'var(--font-heading)',
+    fontSize: '1.7rem',
+    letterSpacing: '2px',
+    color: 'var(--color-primary)',
+    textShadow: '0 0 10px rgba(231, 29, 54, 0.6)',
+    marginBottom: '0.8rem'
+};
+
+const closedTextStyle: React.CSSProperties = {
+    fontFamily: 'var(--font-digital)',
+    color: '#d6d6d6',
+    fontSize: '0.95rem',
+    lineHeight: 1.6,
+    marginBottom: '1.5rem'
+};
+
+const closedButtonStyle: React.CSSProperties = {
+    background: 'var(--color-primary)',
+    border: '1px solid var(--color-primary)',
+    color: '#050505',
+    fontFamily: 'var(--font-heading)',
+    letterSpacing: '1px',
+    textTransform: 'uppercase',
+    fontSize: '0.95rem',
+    fontWeight: 700,
+    padding: '0.8rem 1.4rem',
+    cursor: 'pointer',
+    transition: 'all 0.25s ease'
 };
 
 export default EventDetails;
